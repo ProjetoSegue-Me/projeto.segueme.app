@@ -1,4 +1,4 @@
-# README - Aplicativo Laravel com Inertia, React e Vite.js
+# Aplicativo Laravel com Inertia, React e Vite.js
 
 Guia rápido para como começar o desenvolvimento do aplicativo usando Laravel com Inertia para o backend e React com Vite.js e TailwindCSS para o frontend.
 
