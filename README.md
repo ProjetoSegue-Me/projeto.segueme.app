@@ -1,6 +1,6 @@
 # README - Aplicativo Laravel com Inertia, React e Vite.js
 
-Guia rápido para como começar o desenvolvimento do aplicativo usando Laravel com Inertia para o backend e React com Vite.js para o frontend.
+Guia rápido para como começar o desenvolvimento do aplicativo usando Laravel com Inertia para o backend e React com Vite.js e TailwindCSS para o frontend.
 
 ## Instalação
 
@@ -93,3 +93,21 @@ php artisan make:model MeuModelo
 ```
 
 Em seguida, você pode usá-los normalmente.
+
+## Documentações
+
+Segue a documentações dos frameworks e bibliotecas utilizadas
+
+### Back-end:
+https://inertiajs.com
+
+https://laravel.com/docs/11.x/installation
+
+
+### Front-end:
+
+https://tailwindcss.com/docs/installation
+
+https://vitejs.dev/guide/
+
+https://react.dev/learn/installation
