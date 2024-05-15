@@ -7,7 +7,7 @@ Guia rápido para como começar o desenvolvimento do aplicativo usando Laravel c
 1. Clone o repositório do seu projeto:
 
    ```bash
-   git clone https://github.com/projeto-segue-me/projeto.segueme.app.git
+   git clone https://github.com/ProjetoSegue-Me/projeto.segueme.app.git
    ```
 
 2. Navegue até o diretório do projeto:
