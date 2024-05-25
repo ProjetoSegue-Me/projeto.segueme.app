@@ -1,9 +1,7 @@
-
-
-const Form = () => {
+export default function Form() {
     return (
         <main>
-        Form!
+            Form!
         </main>
     )
 }
