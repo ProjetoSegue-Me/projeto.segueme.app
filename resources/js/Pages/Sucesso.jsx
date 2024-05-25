@@ -9,7 +9,7 @@ export default function Sucesso() {
             <div className="flex flex-col">
                 <img
                     src="/images/Sucesso.png"
-                    className="mx-auto w-[4vw] mt-[15vh]"
+                    className="mx-auto w-[5vw] mt-[15vh]"
                 />
                 {/*TODO: Mudar para uma mensagem dependendo da rota tomada */}
                 <h1 className="w-fit mx-auto mt-[5vh] text-[1.2vw] font-roboto">
