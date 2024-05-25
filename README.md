@@ -22,13 +22,7 @@ Guia rápido para como começar o desenvolvimento do aplicativo usando Laravel c
    cp .env.example .env
    ```
 
-4. Gere a chave da aplicação:
-
-   ```bash
-   php artisan key:generate
-   ```
-
-5. Configure o arquivo `.env` de acordo com a sua necessidade:
+4. Configure o arquivo `.env` de acordo com a sua necessidade:
 
 ### Opção 1: Sem usar o banco de dados
 
@@ -167,17 +161,21 @@ AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
 ```
-
-6. Instale as dependências do PHP com Composer:
+5. Instale as dependências do PHP com Composer:
 
    ```bash
    composer install
    ```
 
-7. Instale as dependências do frontend com npm ou yarn:
+6. Instale as dependências do frontend com npm:
 
    ```bash
    npm install
+   ```
+7. Gere a chave da aplicação:
+
+   ```bash
+   php artisan key:generate
    ```
 
 8. Inicie o servidor PHP:
@@ -192,16 +190,18 @@ VITE_APP_NAME="${APP_NAME}"
    npm run dev
    ```
 
+### Ambos os servidores devem estar rodando simultaneamente
+
 Agora seu aplicativo Laravel está em execução em `http://localhost:8000`.
 
 ## Criando Páginas
 
 As páginas são criadas como componentes React dentro do diretório `resources/js/Pages`.
 
-1. Crie um novo arquivo TypeScript (`.tsx`) para sua página, por exemplo:
+1. Crie um novo arquivo JavaScript (`.jsx`) para sua página, por exemplo:
 
    ```bash
-   touch resources/js/Pages/MinhaPagina.tsx
+   touch resources/js/Pages/MinhaPagina.jsx
    ```
 
 2. No arquivo recém-criado, você pode escrever seu componente React utilizando o padrão Inertia:
@@ -223,6 +223,13 @@ As páginas são criadas como componentes React dentro do diretório `resources/
    export default MinhaPagina;
    ```
 
+3. Adicionar a rota para sua pagina em `routes/web.php` por exemplo:
+
+```php
+Route::get('/Test', function () {
+    return Inertia::render('Test');
+});
+```
 Agora você pode acessar sua página em `http://localhost:8000/minha-pagina`.
 
 ## Controllers e Models
