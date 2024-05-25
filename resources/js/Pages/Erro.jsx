@@ -11,8 +11,16 @@ export default function Erro() {
                     src="/images/Erro.png"
                     className="mx-auto w-[4vw] mt-[15vh]"
                 />
-                <h1 className="w-fit mx-auto mt-[5vh] text-[1.2vw] font-roboto">Algo de errado aconteceu!</h1>
-                <InertiaLink className="mx-auto w-fit text-[1.2vw] font-roboto bg-[#FFB718] mt-[5vh] rounded-full px-[2.5vw] py-[0.75vw]">Voltar</InertiaLink>
+                <h1 className="w-fit mx-auto mt-[5vh] text-[1.2vw] font-roboto">
+                    Algo de errado aconteceu!
+                </h1>
+                {/*TODO: Mudar o Redirect dependendo da rota tomada */}
+                <InertiaLink
+                    className="mx-auto w-fit text-[1.2vw] font-roboto bg-[#FFB718] mt-[5vh] rounded-full px-[2.5vw] py-[0.75vw]"
+                    href="/Cadastro"
+                >
+                    Voltar
+                </InertiaLink>
             </div>
         </div>
     );
