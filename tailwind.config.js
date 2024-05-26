@@ -14,6 +14,9 @@ export default {
         fontFamily: {
             roboto: ["Roboto", "sans-serif"],
         },
+        colors: {
+            'backgroundFormColor': '#894A2A4D',
+          },
     },
     plugins: [],
 };
