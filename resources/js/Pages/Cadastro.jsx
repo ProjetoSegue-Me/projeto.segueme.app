@@ -24,14 +24,13 @@ export default function Cadastro() {
                         </button>
                     </div>
                     <button className="bg-white rounded-full w-[4vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
-                        {" "}
                         <img
                             src="/images/Pesquisa.png"
                             className="h-[1.5vw] mx-auto"
-                        />{" "}
+                        />
                     </button>
                 </div>
-
+                {/*TODO: Fazer renderização condicional caso não tenha nenhum usuario (Depende do Back-end e banco de dados) */}
                 <h1 className="mx-auto w-fit font-roboto text-[1.5vw] py-[8vw]">Não há nenhum membro cadastrado atualmente</h1>
             </div>
         </div>
