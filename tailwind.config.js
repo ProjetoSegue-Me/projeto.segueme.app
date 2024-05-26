@@ -7,6 +7,9 @@ export default {
     ],
     theme: {
         extend: {
+            colors: {
+                'backgroundFormColor': '#894A2A4D',
+              },
             backgroundImage: {
                 "landing": "url('/public/images/Landing.jpg')",
             },
@@ -14,9 +17,7 @@ export default {
         fontFamily: {
             roboto: ["Roboto", "sans-serif"],
         },
-        colors: {
-            'backgroundFormColor': '#894A2A4D',
-          },
+      
     },
     plugins: [],
 };
