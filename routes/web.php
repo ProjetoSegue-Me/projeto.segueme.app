@@ -11,6 +11,10 @@ Route::get('/Cadastro', function () {
     return Inertia::render('Cadastro');
 });
 
+Route::get('/Form', function () {
+    return Inertia::render('Form');
+});
+
 
 //TODO: Criar novas rotas dependendo de onde Erro e Sucesso foram tiradas, passar mensagem e redirecionamento por rota
 Route::get('/Erro', function () {
@@ -24,3 +28,4 @@ Route::get('/Sucesso', function () {
 Route::get('/Test', function () {
     return Inertia::render('Test');
 });
+
