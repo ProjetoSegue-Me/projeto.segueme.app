@@ -21,6 +21,10 @@ Route::get('/Sucesso', function () {
     return Inertia::render('Sucesso');
 });
 
+Route::get('/Cadastro/DetalhesMembro', function () {
+    return Inertia::render('DetalhesMembro');
+});
+
 Route::get('/Test', function () {
     return Inertia::render('Test');
 });
