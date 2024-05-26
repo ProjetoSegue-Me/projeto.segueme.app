@@ -1,4 +1,5 @@
 import Header from "../Components/Header";
+import Titulo from "../Components/Titulo";
 import { useCallback } from "react";
 import * as yup from "yup";
 import dayjs from "dayjs";
@@ -57,8 +58,8 @@ const FormSchema = yup
             .string()
             .min(3, "Primeiro nome deve conter no mínimo 3 letras.")
             .required("Este campo é obrigatório."),
-       
-            data: yup.dayjs("cu"),
+          
+            data: yup.object().dayjs("cu"),
 
         nomeCompleto: yup
             .string()
@@ -85,16 +86,11 @@ const FormSchema = yup
 
 export default function Form() {
     const resolver = useYupValidationResolver(FormSchema);
-    const {
-        handleSubmit,
-        formState: { errors },
-        register,
-    } = useForm({ resolver, mode: "onChange" });
-    const onSubmit = () => console.log(data);
-    console.log({ errors });
+  
     return (
         <main className="">
             <Header />
+            <Titulo/>
         </main>
     );
 }
