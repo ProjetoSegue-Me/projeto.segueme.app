@@ -15,6 +15,10 @@ Route::get('/Eventos', function () {
     return Inertia::render('Eventos');
 });
 
+Route::get('/Home', function () {
+    return Inertia::render('Home');
+});
+
 //TODO: Criar novas rotas dependendo de onde Erro e Sucesso foram tiradas, passar mensagem e redirecionamento por rota
 Route::get('/Erro', function () {
     return Inertia::render('Erro');
