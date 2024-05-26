@@ -35,7 +35,7 @@ export default function Eventos() {
                             Retiros
                         </button>
                     </div>
-                    <button className="bg-[white] rounded-full w-[4vw] h-[4vw] mt-[1vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
+                    <button className="bg-[white] rounded-full w-[4vw] h-[4vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
                         <img
                             src="/images/Pesquisa.png"
                             className="h-[1.5vw] mx-auto"
