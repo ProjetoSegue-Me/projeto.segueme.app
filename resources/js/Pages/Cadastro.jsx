@@ -4,8 +4,8 @@ import { InertiaLink } from "@inertiajs/inertia-react";
 import Titulo from "../Components/Titulo";
 export default function Cadastro() {
     return (
-        <div className="bg-[#F9CDA3] overflow-hidden">
-            <Header></Header>
+        <div className="bg-bodyColor overflow-hidden">
+            <Header/>
             <div className="mt-[5vw] flex flex-col justify-center">
                 <Titulo conteudo="Cadastrar"></Titulo>
                 <InertiaLink href="/Form" className=" bg-[white] rounded-full w-[35vw] py-[0.75vw] mx-auto my-[2.5vw] text-center text-[1.2vw] border-[1px] border-[#FFB718] hover:bg-[#ffead6] ease-in duration-100">
