@@ -60,7 +60,7 @@ const FormSchema = yup
             .min(3, "Primeiro nome deve conter no mínimo 3 letras.")
             .required("Este campo é obrigatório."),
 
-        data: yup.object().dayjs("cu"),
+        data: yup.object().dayjs("teste"),
 
         nomeCompleto: yup
             .string()
