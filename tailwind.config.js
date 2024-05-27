@@ -9,6 +9,8 @@ export default {
         extend: {
             colors: {
                 'backgroundFormColor': '#894A2A4D',
+                'bodyColor': '#F9CDA3',
+                'colorStep': '#FFB718'
               },
             backgroundImage: {
                 "landing": "url('/public/images/Landing.jpg')",
