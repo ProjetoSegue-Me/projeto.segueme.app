@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import * as yup from "yup";
 import dayjs from "dayjs";
 
+
 {
     /*Form usando Inertia e yup */
 }
@@ -58,8 +59,8 @@ const FormSchema = yup
             .string()
             .min(3, "Primeiro nome deve conter no mínimo 3 letras.")
             .required("Este campo é obrigatório."),
-          
-            data: yup.object().dayjs("cu"),
+
+        data: yup.object().dayjs("cu"),
 
         nomeCompleto: yup
             .string()
@@ -85,12 +86,19 @@ const FormSchema = yup
     .required();
 
 export default function Form() {
-    const resolver = useYupValidationResolver(FormSchema);
-  
+
+
     return (
-        <main className="">
+        <main className="bg-bodyColor min-h-screen">
             <Header />
-            <Titulo/>
+            <div className="mt-[2vw]">
+                <Titulo conteudo="Cadastro - Dados Pessoais" />
+            </div>
+            <div className="h-[4vw] w-[90vw] mx-auto flex justify-start py-[0.75vw] mt-[2vw]">
+               <div className="bg-colorStep px-[1vw] py-[1vw] rounded-full text-center pt-[0.3vw] text-[1.2vw] mx-auto">1</div>
+
+                <span className=" w-[2vw] h-[4px] bg-colorStep "></span>
+            </div>
         </main>
     );
 }
