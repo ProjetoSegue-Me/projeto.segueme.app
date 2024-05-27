@@ -7,6 +7,11 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 });
 
+Route::get('/Login', function () {
+    return Inertia::render('Login');
+});
+
+
 Route::get('/Form', function () {
     return Inertia::render('Form');
 });
