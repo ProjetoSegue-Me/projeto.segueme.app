@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import * as yup from "yup";
-import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/react";
 import Header from "../Components/Header";
 
 const useYupValidationResolver = () =>
@@ -54,17 +54,10 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await SignupSchema.validate(values, { abortEarly: false });
-            setErrors({});
-            Inertia.post("/")
-        } catch (err) {
-            const validationErrors = {};
-            err.inner.forEach((error) => {
-                validationErrors[error.path] = error.message;
-            });
-            setErrors(validationErrors);
-        }
+
+        await FormSchema.validate(values, { abortEarly: false });
+        setErrors({});
+        router.post("/Login", values);
     };
 
     return (
@@ -73,11 +66,11 @@ export default function Login() {
             <div className=" bg-gradient-to-r from-[#F9CDA353] to-bodyColor min-h-screen to-[50%]  z-10">
                 <Header></Header>
                 <form
-                    action=""
+                    onSubmit={handleSubmit}
                     className="ml-auto w-[25vw] mr-[15vw] mt-[25vh]"
                 >
-                    <div class="relative mt-2 w-[100%]">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <div className="relative mt-2 w-[100%]">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <img
                                 src="/images/User.png"
                                 className="ml-[1vw] w-[1vw]"
@@ -85,28 +78,37 @@ export default function Login() {
                         </div>
                         <input
                             type="text"
-                            name="price"
-                            id="price"
-                            class="block ml-[1vw] w-full border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-[#FFB718] placeholder:text-gray-400"
+                            name="login"
+                            id="login"
+                            className="block ml-[1vw] w-full border-0 py-1.5 pl-[10%] pr-20 text-gray-900 ring-1 ring-inset ring-[#FFB718] placeholder:text-gray-400"
                             placeholder="Úsuario"
+                            value={values.login}
+                            onChange={handleChange}
                         />
                     </div>
-                    <div class="relative mt-2 w-[100%] text-[1.2vw]">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <div className="relative mt-2 w-[100%] text-[1.2vw]">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <img
                                 src="/images/Senha.png"
                                 className="ml-[1vw] w-[1vw]"
                             />
                         </div>
                         <input
-                            type="text"
-                            name="price"
-                            id="price"
-                            class="block ml-[1vw] w-full border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-[#FFB718] placeholder:text-gray-400"
+                            type="password"
+                            name="senha"
+                            id="senha"
+                            className="block ml-[1vw] w-full border-0 py-1.5 pl-[10%] pr-20 text-gray-900 ring-1 ring-inset ring-[#FFB718] placeholder:text-gray-400"
                             placeholder="Senha"
+                            value={values.senha}
+                            onChange={handleChange}
                         />
                     </div>
-                    <button type="submit">Enviar</button>
+                    <button
+                        type="submit"
+                        className=" ml-[70%] w-fit text-[1.2vw] font-roboto bg-[#FFB718] mt-[5vh] rounded-full px-[2.5vw] py-[0.75vw] "
+                    >
+                        Enviar
+                    </button>
                 </form>
             </div>
         </div>
