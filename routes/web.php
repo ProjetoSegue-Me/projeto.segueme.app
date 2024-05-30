@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\MockController;
+
 Route::get('/', function () {
     return Inertia::render('Landing');
 });
@@ -10,6 +12,8 @@ Route::get('/', function () {
 Route::get('/Login', function () {
     return Inertia::render('Login');
 });
+
+Route::post('/Login/Processando', [MockController::class, 'submit']);
 
 
 Route::get('/Form', function () {

@@ -57,7 +57,7 @@ export default function Login() {
 
         await FormSchema.validate(values, { abortEarly: false });
         setErrors({});
-        router.post("/Login", values);
+        router.post("/Login/Processando", values);
     };
 
     return (
