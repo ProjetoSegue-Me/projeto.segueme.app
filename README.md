@@ -21,14 +21,25 @@ Guia rápido para como começar o desenvolvimento do aplicativo usando Laravel c
    ```bash
    cp .env.example .env
    ```
+4. Instale as dependências do PHP com Composer:
 
-4. Gere a chave da aplicação:
+   ```bash
+   composer install
+   ```
+
+5. Instale as dependências do frontend com npm ou yarn:
+
+   ```bash
+   npm install
+   ```
+
+6. Gere a chave da aplicação:
 
    ```bash
    php artisan key:generate
    ```
 
-5. Configure o arquivo `.env` de acordo com a sua necessidade:
+7. Configure o arquivo `.env` de acordo com a sua necessidade:
 
 ### Opção 1: Sem usar o banco de dados
 
@@ -167,18 +178,6 @@ AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
 ```
-
-6. Instale as dependências do PHP com Composer:
-
-   ```bash
-   composer install
-   ```
-
-7. Instale as dependências do frontend com npm ou yarn:
-
-   ```bash
-   npm install
-   ```
 
 8. Inicie o servidor PHP:
 
