@@ -15,7 +15,7 @@ export default function Erro() {
             : router.query.message}
         </h1>
         <button
-          className="mx-auto w-fit text-[1.2vw] font-roboto bg-[#FFB718] mt-[5vh] rounded-full px-[2.5vw] h-[3.5vw]"
+          className="mx-auto w-fit text-[1.2vw] font-roboto bg-[#FFB718] mt-[5vh] rounded-full px-[2.5vw] h-[3vw]"
           onClick={() => router.back()}
         >
           Voltar
