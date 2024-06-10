@@ -4,7 +4,7 @@ import Titulo from "@/components/Titulo";
 
 export default function Eventos() {
     return (
-        <div className="bg-[#F9CDA3] overflow-hidden">
+        <div className="bg-[#F9CDA3] min-h-[100vh] overflow-hidden">
             <Header></Header>
             <div>
                 <Titulo conteudo="0 Retiros"></Titulo>

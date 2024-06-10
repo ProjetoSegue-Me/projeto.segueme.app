@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function Cadastro() {
   const router = useRouter();
   return (
-    <div className="bg-bodyColor overflow-hidden">
+    <div className="bg-bodyColor min-h-[100vh] overflow-hidden">
       <Header />
       <div className="mt-[5vw] flex flex-col justify-center">
         <Titulo conteudo="Cadastrar"></Titulo>
