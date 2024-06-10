@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useState } from "react";
 import * as yup from "yup";
 import Header from "@/components/Header";
+import { useRouter } from "next/router";
 
 const validationSchema = yup.object().shape({
   login: yup
@@ -14,6 +15,8 @@ interface FormSchema {
   senha: string;
 }
 export default function Login() {
+
+  const router = useRouter()
   const [values, setValues] = useState({
     login: "",
     senha: "",
@@ -35,7 +38,19 @@ export default function Login() {
 
       try {
         await validationSchema.validate(values, { abortEarly: false });
-        setErrors({login: "", senha: ""});
+        setErrors({ login: "", senha: "" });
+        const res = await fetch("/api/mock/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
+        if (res.ok) {
+          router.push("/home")
+        } else {
+          alert("Login falhou");
+        }
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const newErrors: any = {};
@@ -56,10 +71,11 @@ export default function Login() {
     <div className=" bg-[url('/images/FundoLogin.png')]  w-screen bg-no-repeat bg-contain text-[1.2vw] font-roboto overflow-hidden">
       <div className=" bg-gradient-to-r from-[#F9CDA353] to-bodyColor min-h-screen to-[50%]  z-10">
         <Header></Header>
-        
+
         <form
           className="ml-auto w-[25vw] mr-[15vw] mt-[20vh]"
           onSubmit={handleSubmit}
+          method="POST"
         >
           <h1 className="text-[1.2vw] mb-[2vh]">Login</h1>
           <div className="relative mt-2 w-[100%] text-[1.2vw]">
@@ -77,7 +93,7 @@ export default function Login() {
             />
           </div>
           <p className="font-roboto text-[0.8vw] text-red-600 whitespace-pre">
-            {!errors.login? " " : errors.login}
+            {!errors.login ? " " : errors.login}
           </p>
           <div className="relative mt-2 w-[100%] text-[1.2vw]">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-[3.5%]">
@@ -94,7 +110,7 @@ export default function Login() {
             />
           </div>
           <p className="font-roboto text-[0.8vw] text-red-600">
-          {!errors.senha? " " : errors.senha}
+            {!errors.senha ? " " : errors.senha}
           </p>
           <button
             type="submit"
