@@ -10,8 +10,9 @@ export default function Erro() {
       <div className="flex flex-col">
         <img src="/images/Erro.png" className="mx-auto w-[4vw] mt-[15vh]" />
         <h1 className="w-fit mx-auto mt-[5vh] text-[1.2vw] font-roboto">
-          {/*TODO: Mudar para mostrar o erro, assim ta feio*/}
-          Algo de errado aconteceu!
+          {!router.query.message
+            ? "Algo de errado aconteceu!"
+            : router.query.message}
         </h1>
         <button
           className="mx-auto w-fit text-[1.2vw] font-roboto bg-[#FFB718] mt-[5vh] rounded-full px-[2.5vw] h-[3.5vw]"
