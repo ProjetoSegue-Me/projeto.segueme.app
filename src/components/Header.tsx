@@ -77,7 +77,7 @@ export default function Header() {
           </a>
           <a
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
-            href="/"
+            href="/eventos"
           >
             Eventos
           </a>
