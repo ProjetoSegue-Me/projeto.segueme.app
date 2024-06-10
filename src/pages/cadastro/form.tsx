@@ -111,11 +111,32 @@ export default function Form() {
       setPage(target);
     }
   };
+
+  /*Renderização condicional do Titulo */
+  const handlePageName = () => {
+    switch (page) {
+      case 1:
+        return <Titulo conteudo="Cadastro - Dados Pessoais"/>;
+
+      case 2:
+        return <Titulo conteudo="Cadastro - Contato"/>;
+
+      case 3:
+        return <Titulo conteudo="Cadastro - Dados Religiosos"/>;
+
+      case 4:
+        return <Titulo conteudo="Cadastro - Dados Diversos"/>;
+
+      default:
+        break;
+    }
+  };
+  
   return (
     <main className="bg-bodyColor min-h-screen">
       <Header />
       <div className="mt-[2vw]">
-        <Titulo conteudo="Cadastro - Dados Pessoais" />
+        {handlePageName()}
       </div>
 
       {/*Navegação*/}
