@@ -24,7 +24,7 @@ export default function Eventos() {
         </h1>
       </div>
       <div>
-        <Titulo conteudo="Eventos Finalizados"></Titulo>
+        <Titulo conteudo="Eventos Finalizados"/>
         <div className="flex mx-auto w-fit gap-[3vw] mt-[4vw]">
           <div>
             <button className="bg-[white] rounded-l-full w-[35vw] h-[3.5vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
