@@ -88,6 +88,7 @@ const FormSchema = yup
 export default function Form() {
   const [page, setPage] = useState(1);
 
+  /*Renderizações condicionais da cor dos botões, alterar depois caso sobre tempo pra animar */
   const activeButton =
     "bg-colorStep w-[2.5vw] h-[2.5vw] rounded-full text-center text-[1.2vw]";
   const inactiveButton =
@@ -105,9 +106,10 @@ export default function Form() {
     </div>
   );
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
-    console.log(page);
+  const handlePageChange = (target: number) => {
+    if (target >= 1 && target <= 4) {
+      setPage(target);
+    }
   };
   return (
     <main className="bg-bodyColor min-h-screen">
@@ -117,7 +119,7 @@ export default function Form() {
       </div>
 
       {/*Navegação*/}
-      <div className="h-[4vw] w-[70vw] mx-auto flex justify-between py-[0.75vw] mt-[2vw] items-center">
+      <nav className="h-[4vw] w-[70vw] mx-auto flex justify-between py-[0.75vw] mt-[2vw] items-center">
         <button
           className={page >= 1 ? activeButton : inactiveButton}
           onClick={() => handlePageChange(1)}
@@ -127,7 +129,7 @@ export default function Form() {
         <p className="text-[1.2vw] font-roboto">Etapa 1</p>
 
         {page >= 1 ? activeSpan : inactiveSpan}
-        
+
         <button
           className={page >= 2 ? activeButton : inactiveButton}
           onClick={() => handlePageChange(2)}
@@ -155,7 +157,7 @@ export default function Form() {
           4
         </button>
         <p className="text-[1.2vw] font-roboto">Etapa 4</p>
-      </div>
+      </nav>
     </main>
   );
 }
