@@ -9,7 +9,7 @@ export default function Cadastro() {
     <div className="bg-bodyColor min-h-[100vh] overflow-hidden">
       <Header />
       <div className="mt-[5vw] flex flex-col justify-center">
-        <Titulo conteudo="Cadastrar"></Titulo>
+        <Titulo conteudo="Cadastrar" />
         <button
           onClick={() => router.push("/cadastro/form")}
           className=" bg-[white] rounded-full w-[35vw] h-[3.5vw] mx-auto my-[2.5vw] text-center text-[1.2vw] border-[1px] border-[#FFB718] hover:bg-[#ffead6] ease-in duration-100"
@@ -18,7 +18,7 @@ export default function Cadastro() {
         </button>
       </div>
       <div>
-        <Titulo conteudo="Todos os Cadastros"></Titulo>
+        <Titulo conteudo="Todos os Cadastros" />
         <div className="flex mx-auto w-fit gap-[3vw] mt-[4vw]">
           <div>
             <button className="bg-[white] rounded-l-full w-[35vw] h-[3.5vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">

@@ -71,7 +71,7 @@ export default function Login() {
     //Caso começe a quebrar em medias maiores, pedir pelo fundo como imagem
     <div className=" bg-[url('/images/FundoLogin.png')]  w-screen bg-no-repeat bg-contain text-[1.2vw] font-roboto overflow-hidden">
       <div className=" bg-gradient-to-r from-[#F9CDA353] to-bodyColor min-h-screen to-[50%]  z-10">
-        <Header></Header>
+        <Header/>
 
         <form
           className="ml-auto w-[25vw] mr-[15vw] mt-[20vh]"
