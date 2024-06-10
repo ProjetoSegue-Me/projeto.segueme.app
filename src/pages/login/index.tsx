@@ -49,7 +49,8 @@ export default function Login() {
         if (res.ok) {
           router.push("/home")
         } else {
-          alert("Login falhou");
+          const errorData = await res.json();
+          router.push({ pathname: "/erro", query: { message: errorData.message } });
         }
       } catch (err) {
         if (err instanceof yup.ValidationError) {
