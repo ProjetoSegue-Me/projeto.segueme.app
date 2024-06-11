@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-  font-family: ;
+  overflow-x: hidden;
 }
 @layer utilities {
   .text-balance {
