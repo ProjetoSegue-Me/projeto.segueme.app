@@ -22,7 +22,7 @@ model Usuario {
   UsuarioNome  String    @db.VarChar(60)
   Retiro       Retiro[]
   Pessoa       Pessoa[]
-  Encontro     Encontro[]
+  Evento       Evento[]
 }
 
 model Endereco {
@@ -167,10 +167,10 @@ model Circulo {
 
 model Participacao {
   idParticipacao     Int      @id @default(autoincrement())
-  EncontroFK         Int?
+  EventoFK           Int?
   RetiroFK           Int?
   PessoaFK           Int
-  Encontro           Encontro? @relation(fields: [EncontroFK], references: [idEvento])
+  Evento             Evento? @relation(fields: [EventoFK], references: [idEvento])
   Retiro             Retiro?   @relation(fields: [RetiroFK], references: [idRetiro])
   Pessoa             Pessoa    @relation(fields: [PessoaFK], references: [idPessoa])
 }
