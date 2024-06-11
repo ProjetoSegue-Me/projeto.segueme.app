@@ -116,28 +116,26 @@ export default function Form() {
   const handlePageName = () => {
     switch (page) {
       case 1:
-        return <Titulo conteudo="Cadastro - Dados Pessoais"/>;
+        return <Titulo conteudo="Cadastro - Dados Pessoais" />;
 
       case 2:
-        return <Titulo conteudo="Cadastro - Contato"/>;
+        return <Titulo conteudo="Cadastro - Contato" />;
 
       case 3:
-        return <Titulo conteudo="Cadastro - Dados Religiosos"/>;
+        return <Titulo conteudo="Cadastro - Dados Religiosos" />;
 
       case 4:
-        return <Titulo conteudo="Cadastro - Dados Diversos"/>;
+        return <Titulo conteudo="Cadastro - Dados Diversos" />;
 
       default:
         break;
     }
   };
-  
+
   return (
     <main className="bg-bodyColor min-h-screen">
       <Header />
-      <div className="mt-[2vw]">
-        {handlePageName()}
-      </div>
+      <div className="mt-[2vw]">{handlePageName()}</div>
 
       {/*Navegação*/}
       <nav className="h-[4vw] w-[70vw] mx-auto flex justify-between py-[0.75vw] mt-[2vw] items-center">
@@ -179,6 +177,208 @@ export default function Form() {
         </button>
         <p className="text-[1.2vw] font-roboto">Etapa 4</p>
       </nav>
+
+      {/*Formulário*/}
+
+      <form className="w-[90vw] mx-auto bg-backgroundFormColor py-[2.5vw] mt-[2.5vw]">
+        {
+          /*Etapa 2 */
+          page === 2 && (
+            <section className="w-[90%] mx-auto flex flex-col gap-[2vw]">
+              <div className="flex justify-between">
+                <div className="w-[50%] flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="telefone01"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    Telefone 01
+                  </label>
+                  <input
+                    className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="telefone01"
+                    type="text"
+                  />
+                </div>
+                <div className="w-[40%] flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto py-[0.25vw]"
+                    htmlFor="telefone02"
+                  >
+                    Telefone 02
+                  </label>
+                  <input
+                    className="w-[75%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="telefone02"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-[50%] flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="cep"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    CEP
+                  </label>
+                  <input
+                    className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="cep"
+                    type="text"
+                  />
+                </div>
+                <div className="w-[40%] flex justify-between">
+                  <label
+                    className="text-[1.2vw] ml-[-0.5vw] font-roboto py-[0.25vw]"
+                    htmlFor="numero"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    Número
+                  </label>
+                  <input
+                    className="w-[75%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="numero"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] ml-[-0.5vw] font-roboto py-[0.25vw]"
+                    htmlFor="endereco"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    Endereço
+                  </label>
+                  <input
+                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="endereco"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] ml-[-0.5vw] font-roboto py-[0.25vw]"
+                    htmlFor="bairro"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    Bairro
+                  </label>
+                  <input
+                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="bairro"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-[50%] flex justify-between">
+                  <label
+                    className="text-[1.2vw] ml-[-0.5vw] font-roboto py-[0.25vw]"
+                    htmlFor="cidade"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    Cidade
+                  </label>
+                  <input
+                    className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="cidade"
+                    type="text"
+                  />
+                </div>
+                <div className="w-[40%] flex justify-between">
+                  <label
+                    className="text-[1.2vw] ml-[-0.5vw] font-roboto py-[0.25vw]"
+                    htmlFor="estado"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    Estado
+                  </label>
+                  <input
+                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="estado"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto py-[0.25vw]"
+                    htmlFor="complemento"
+                  >
+                    Complemento
+                  </label>
+                  <input
+                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="complemento"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] ml-[-0.5vw] font-roboto py-[0.25vw]"
+                    htmlFor="email"
+                  >
+                    <span className="relative left-[-1vw] text-red-500 text-[1.2vw] font-roboto">
+                      *
+                    </span>
+                    E-mail
+                  </label>
+                  <input
+                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="email"
+                    type="email"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto py-[0.25vw]"
+                    htmlFor="instagram"
+                  >
+                    Instagram
+                  </label>
+                  <input
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="instagram"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </section>
+          )
+        }
+      </form>
     </main>
   );
 }
