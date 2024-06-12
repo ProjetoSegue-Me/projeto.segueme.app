@@ -1,176 +1,170 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Usuario {
-  idUser       Int       @id @default(autoincrement())
-  TipoUsuario  Int
-  Senha        String    @db.VarChar(60)
-  Status       Int       @db.TinyInt
-  Email        String    @db.VarChar(50)
-  UsuarioNome  String    @db.VarChar(60)
-  Retiro       Retiro[]
-  Pessoa       Pessoa[]
-  Evento       Evento[]
+  idUser      Int      @id @default(autoincrement())
+  TipoUsuario Int
+  Senha       String   @db.VarChar(60)
+  Status      Int      @db.SmallInt
+  Email       String   @db.VarChar(50)
+  UsuarioNome String   @db.VarChar(60)
+  Evento      Evento[]
+  Pessoa      Pessoa[]
+  Retiro      Retiro[]
 }
 
 model Endereco {
-  idEndereco   Int        @id @default(autoincrement())
-  Rua          String     @db.VarChar(60)
-  Numero       String     @db.VarChar(10)
-  Complemento  String?    @db.VarChar(60)
-  Bairro       String     @db.VarChar(45)
-  Cidade       String     @db.VarChar(45)
-  Estado       String     @db.VarChar(45)
-  Cep          String     @db.Char(8)
-  Retiro       Retiro[]
-  Pessoa       Pessoa[]
+  idEndereco  Int      @id @default(autoincrement())
+  Rua         String   @db.VarChar(60)
+  Numero      String   @db.VarChar(10)
+  Complemento String?  @db.VarChar(60)
+  Bairro      String   @db.VarChar(45)
+  Cidade      String   @db.VarChar(45)
+  Estado      String   @db.VarChar(45)
+  Cep         String   @db.Char(8)
+  Pessoa      Pessoa[]
+  Retiro      Retiro[]
 }
 
 model Retiro {
-  idRetiro           Int            @id @default(autoincrement())
-  EdicaoRetiro       String         @db.VarChar(20)
-  DiretorEspiritual  String         @db.VarChar(60)
-  Padroeiro          String         @db.VarChar(60)
+  idRetiro           Int                  @id @default(autoincrement())
+  EdicaoRetiro       String               @db.VarChar(20)
+  DiretorEspiritual  String               @db.VarChar(60)
+  Padroeiro          String               @db.VarChar(60)
   DataInicio         DateTime?
   DataFim            DateTime?
   EnderecoFK         Int
   UsuarioFK          Int
-  Endereco           Endereco       @relation(fields: [EnderecoFK], references: [idEndereco])
-  Usuario            Usuario        @relation(fields: [UsuarioFK], references: [idUser])
-  Equipe_de_trabalho Equipe_de_trabalho[]
+  Circulo            Circulo[]
   Coord_geral_casal  Coord_geral_casal[]
   Coord_geral_jovem  Coord_geral_jovem[]
-  Circulo            Circulo[]
+  Equipe_de_trabalho Equipe_de_trabalho[]
   Participacao       Participacao[]
+  Endereco           Endereco             @relation(fields: [EnderecoFK], references: [idEndereco])
+  Usuario            Usuario              @relation(fields: [UsuarioFK], references: [idUser])
 }
 
 model Escolaridade {
-  idEscola    Int      @id @default(autoincrement())
-  Escolaridade String  @db.VarChar(45)
-  Instituicao  String? @db.VarChar(60)
-  Curso        String? @db.VarChar(60)
-  Situacao     String? @db.VarChar(45)
+  idEscola     Int      @id @default(autoincrement())
+  Escolaridade String   @db.VarChar(45)
+  Instituicao  String?  @db.VarChar(60)
+  Curso        String?  @db.VarChar(60)
+  Situacao     String?  @db.VarChar(45)
   Pessoa       Pessoa[]
 }
 
 model Pessoa {
-  idPessoa       Int          @id @default(autoincrement())
-  NomeCompleto   String       @db.VarChar(100)
-  Email          String?      @db.VarChar(45)
-  Instagram      String?      @db.VarChar(45)
-  DtNascimento   DateTime
-  NomeMae        String       @db.VarChar(60)
-  NomePai        String?      @db.VarChar(60)
-  EstadoCivil    String?      @db.VarChar(10)
-  Paroquia       String       @db.VarChar(45)
-  Sacramento     String       @db.VarChar(45)
-  Conjuge        String?      @db.VarChar(100)
-  Naturalidade   String       @db.VarChar(45)
-  Religiao       String       @db.VarChar(45)
-  IgrejaFrequenta String      @db.VarChar(90)
-  ECC            Int          @db.TinyInt
-  Observacao     String?      @db.VarChar(200)
-  foto           Bytes?
-  EscolaridadeFK Int
-  EnderecoFK     Int
-  UsuarioFK      Int
-  Escolaridade   Escolaridade @relation(fields: [EscolaridadeFK], references: [idEscola])
-  Endereco       Endereco     @relation(fields: [EnderecoFK], references: [idEndereco])
-  Usuario        Usuario      @relation(fields: [UsuarioFK], references: [idUser])
+  idPessoa                                                            Int                  @id @default(autoincrement())
+  NomeCompleto                                                        String               @db.VarChar(100)
+  Email                                                               String?              @db.VarChar(45)
+  Instagram                                                           String?              @db.VarChar(45)
+  DtNascimento                                                        DateTime
+  NomeMae                                                             String               @db.VarChar(60)
+  NomePai                                                             String?              @db.VarChar(60)
+  EstadoCivil                                                         String?              @db.VarChar(10)
+  Paroquia                                                            String               @db.VarChar(45)
+  Sacramento                                                          String               @db.VarChar(45)
+  Conjuge                                                             String?              @db.VarChar(100)
+  Naturalidade                                                        String               @db.VarChar(45)
+  Religiao                                                            String               @db.VarChar(45)
+  IgrejaFrequenta                                                     String               @db.VarChar(90)
+  ECC                                                                 Int                  @db.SmallInt
+  Observacao                                                          String?              @db.VarChar(200)
+  foto                                                                Bytes?
+  EscolaridadeFK                                                      Int
+  EnderecoFK                                                          Int
+  UsuarioFK                                                           Int
+  Circulo_CirculoToCoord_circulo_pessoaFK                             Circulo[]            @relation("CirculoToCoord_circulo_pessoaFK")
+  Circulo_CirculoToPessoaFK                                           Circulo[]            @relation("CirculoToPessoaFK")
+  Convite_ConviteToConvidado_pessoaFK                                 Convite[]            @relation("ConviteToConvidado_pessoaFK")
+  Convite_ConviteToConvidante_pessoaFK                                Convite[]            @relation("ConviteToConvidante_pessoaFK")
+  Coord_geral_casal                                                   Coord_geral_casal[]
+  Coord_geral_jovem                                                   Coord_geral_jovem[]
+  Equipe_de_trabalho_Equipe_de_trabalhoToCoord_equipe_pessoaFK        Equipe_de_trabalho[] @relation("Equipe_de_trabalhoToCoord_equipe_pessoaFK")
   Equipe_de_trabalho_Equipe_de_trabalhoToPessoa_Participante_pessoaFK Equipe_de_trabalho[] @relation("Equipe_de_trabalhoToPessoa_Participante_pessoaFK")
-  Equipe_de_trabalho_Equipe_de_trabalhoToCoord_equipe_pessoaFK Equipe_de_trabalho[] @relation("Equipe_de_trabalhoToCoord_equipe_pessoaFK")
-  Convite_ConviteToConvidante_pessoaFK Convite[] @relation("ConviteToConvidante_pessoaFK")
-  Convite_ConviteToConvidado_pessoaFK Convite[] @relation("ConviteToConvidado_pessoaFK")
-  Coord_geral_casal  Coord_geral_casal[]
-  Coord_geral_jovem  Coord_geral_jovem[]
-  Circulo_CirculoToPessoaFK Circulo[] @relation("CirculoToPessoaFK")
-  Circulo_CirculoToCoord_circulo_pessoaFK Circulo[] @relation("CirculoToCoord_circulo_pessoaFK")
-  Participacao       Participacao[]
-  Telefone           Telefone[]
+  Participacao                                                        Participacao[]
+  Endereco                                                            Endereco             @relation(fields: [EnderecoFK], references: [idEndereco])
+  Escolaridade                                                        Escolaridade         @relation(fields: [EscolaridadeFK], references: [idEscola])
+  Usuario                                                             Usuario              @relation(fields: [UsuarioFK], references: [idUser])
+  Telefone                                                            Telefone[]
 }
 
 model Equipe_de_trabalho {
-  idEquipe                  Int        @id @default(autoincrement())
-  TrabalhoNome              String     @db.VarChar(40)
-  Retiros_idRetiro          Int
+  idEquipe                     Int    @id @default(autoincrement())
+  TrabalhoNome                 String @db.VarChar(40)
+  Retiros_idRetiro             Int
   Pessoa_Participante_pessoaFK Int
-  Coord_equipe_pessoaFK     Int
-  Retiro                    Retiro     @relation(fields: [Retiros_idRetiro], references: [idRetiro])
-  Pessoa_Participante_pessoa Pessoa    @relation("Equipe_de_trabalhoToPessoa_Participante_pessoaFK", fields: [Pessoa_Participante_pessoaFK], references: [idPessoa])
-  Pessoa_Coord_equipe_pessoa Pessoa    @relation("Equipe_de_trabalhoToCoord_equipe_pessoaFK", fields: [Coord_equipe_pessoaFK], references: [idPessoa])
+  Coord_equipe_pessoaFK        Int
+  Pessoa_Coord_equipe_pessoa   Pessoa @relation("Equipe_de_trabalhoToCoord_equipe_pessoaFK", fields: [Coord_equipe_pessoaFK], references: [idPessoa])
+  Pessoa_Participante_pessoa   Pessoa @relation("Equipe_de_trabalhoToPessoa_Participante_pessoaFK", fields: [Pessoa_Participante_pessoaFK], references: [idPessoa])
+  Retiro                       Retiro @relation(fields: [Retiros_idRetiro], references: [idRetiro])
 }
 
 model Convite {
-  idConvite              Int      @id @default(autoincrement())
-  Convidante_pessoaFK    Int
-  Convidado_pessoaFK     Int
+  idConvite                Int    @id @default(autoincrement())
+  Convidante_pessoaFK      Int
+  Convidado_pessoaFK       Int
+  Pessoa_Convidado_pessoa  Pessoa @relation("ConviteToConvidado_pessoaFK", fields: [Convidado_pessoaFK], references: [idPessoa])
   Pessoa_Convidante_pessoa Pessoa @relation("ConviteToConvidante_pessoaFK", fields: [Convidante_pessoaFK], references: [idPessoa])
-  Pessoa_Convidado_pessoa Pessoa  @relation("ConviteToConvidado_pessoaFK", fields: [Convidado_pessoaFK], references: [idPessoa])
 }
 
 model Evento {
-  idEvento   Int      @id @default(autoincrement())
-  Tema       String   @db.VarChar(45)
-  Palestrante String  @db.VarChar(60)
-  DataFim    DateTime
-  UsuarioFK  Int
-  Usuario    Usuario  @relation(fields: [UsuarioFK], references: [idUser])
+  idEvento     Int            @id @default(autoincrement())
+  Tema         String         @db.VarChar(45)
+  Palestrante  String         @db.VarChar(60)
+  DataFim      DateTime
+  UsuarioFK    Int
+  Usuario      Usuario        @relation(fields: [UsuarioFK], references: [idUser])
   Participacao Participacao[]
 }
 
 model Telefone {
-  idTelefone Int      @id @default(autoincrement())
-  Telefone   String?  @db.Char(11)
+  idTelefone Int     @id @default(autoincrement())
+  Telefone   String? @db.Char(11)
   PessoaFK   Int
-  Pessoa     Pessoa   @relation(fields: [PessoaFK], references: [idPessoa])
+  Pessoa     Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
 }
 
 model Coord_geral_casal {
-  idcoord_casal     Int    @id @default(autoincrement())
-  RetiroFK          Int
+  idcoord_casal         Int    @id @default(autoincrement())
+  RetiroFK              Int
   Pessoa_Coord_pessoaFK Int
-  Retiro            Retiro @relation(fields: [RetiroFK], references: [idRetiro])
-  Pessoa            Pessoa @relation(fields: [Pessoa_Coord_pessoaFK], references: [idPessoa])
+  Pessoa                Pessoa @relation(fields: [Pessoa_Coord_pessoaFK], references: [idPessoa])
+  Retiro                Retiro @relation(fields: [RetiroFK], references: [idRetiro])
 }
 
 model Coord_geral_jovem {
-  idcoord_jovem     Int    @id @default(autoincrement())
-  RetiroFK          Int
+  idcoord_jovem         Int    @id @default(autoincrement())
+  RetiroFK              Int
   Pessoa_Coord_pessoaFK Int
-  Retiro            Retiro @relation(fields: [RetiroFK], references: [idRetiro])
-  Pessoa            Pessoa @relation(fields: [Pessoa_Coord_pessoaFK], references: [idPessoa])
+  Pessoa                Pessoa @relation(fields: [Pessoa_Coord_pessoaFK], references: [idPessoa])
+  Retiro                Retiro @relation(fields: [RetiroFK], references: [idRetiro])
 }
 
 model Circulo {
-  idCirculo                Int     @id @default(autoincrement())
-  Cor                      String  @db.VarChar(20)
+  idCirculo                                       Int    @id @default(autoincrement())
+  Cor                                             String @db.VarChar(20)
   coord_equipe_e_circulo_idcoord_equipe_e_circulo Int
-  RetiroFK                 Int
-  PessoaFK                 Int
-  Coord_circulo_pessoaFK   Int
-  Retiro                   Retiro  @relation(fields: [RetiroFK], references: [idRetiro])
-  Pessoa                   Pessoa  @relation("CirculoToPessoaFK", fields: [PessoaFK], references: [idPessoa])
-  Coord_circulo_pessoa     Pessoa  @relation("CirculoToCoord_circulo_pessoaFK", fields: [Coord_circulo_pessoaFK], references: [idPessoa])
+  RetiroFK                                        Int
+  PessoaFK                                        Int
+  Coord_circulo_pessoaFK                          Int
+  Coord_circulo_pessoa                            Pessoa @relation("CirculoToCoord_circulo_pessoaFK", fields: [Coord_circulo_pessoaFK], references: [idPessoa])
+  Pessoa                                          Pessoa @relation("CirculoToPessoaFK", fields: [PessoaFK], references: [idPessoa])
+  Retiro                                          Retiro @relation(fields: [RetiroFK], references: [idRetiro])
 }
 
 model Participacao {
-  idParticipacao     Int      @id @default(autoincrement())
-  EventoFK           Int?
-  RetiroFK           Int?
-  PessoaFK           Int
-  Evento             Evento? @relation(fields: [EventoFK], references: [idEvento])
-  Retiro             Retiro?   @relation(fields: [RetiroFK], references: [idRetiro])
-  Pessoa             Pessoa    @relation(fields: [PessoaFK], references: [idPessoa])
+  idParticipacao Int     @id @default(autoincrement())
+  EventoFK       Int?
+  RetiroFK       Int?
+  PessoaFK       Int
+  Evento         Evento? @relation(fields: [EventoFK], references: [idEvento])
+  Pessoa         Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+  Retiro         Retiro? @relation(fields: [RetiroFK], references: [idRetiro])
 }
