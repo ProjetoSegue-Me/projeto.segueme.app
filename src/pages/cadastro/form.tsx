@@ -378,6 +378,110 @@ export default function Form() {
             </section>
           )
         }
+        {
+          /* Etapa 4 */
+          page === 4 && (
+            <section className="w-[90%] mx-auto flex flex-col gap-[2vw]">
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="escolaridade"
+                  >
+                    <span className="absolute left-[-1vw] text-red-500">*</span>
+                    Escolaridade
+                  </label>
+                  <input
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="escolaridade"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="situacao"
+                  >
+                    Situação
+                  </label>
+                  <input
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="situacao"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="curso"
+                  >
+                    Curso
+                  </label>
+                  <input
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="curso"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="instituicao"
+                  >
+                    Instituição
+                  </label>
+                  <input
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="instituicao"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="w-full flex justify-between">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="observacao"
+                  >
+                    Observação
+                  </label>
+                  <textarea
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="observacao"
+                    maxLength={200}
+                    rows={4}
+                  />
+                </div>
+              </div>
+              {/*TODO: Fazer a estilização correta desse botão */}
+              <div className="flex justify-between">
+                <div className="w-full flex gap-[15%]">
+                  <label
+                    className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                    htmlFor="foto"
+                  >
+                    Foto
+                  </label>
+                  <input
+                    className="w-[20%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    id="foto"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </section>
+          )
+        }
       </form>
     </main>
   );
