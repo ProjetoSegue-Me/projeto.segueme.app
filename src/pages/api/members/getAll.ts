@@ -1,5 +1,3 @@
-// src/pages/api/pessoas/getAll.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 
@@ -8,7 +6,15 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
-      const pessoas = await prisma.pessoa.findMany();
+      const pessoas = await prisma.pessoa.findMany({
+        include: {
+          telefone: true,
+          escolaridade: true,
+        },
+      });
+
+      console.log('Pessoas encontradas:', pessoas); // log para depuração no console
+
       res.status(200).json(pessoas);
     } catch (error) {
       console.error('Failed to fetch pessoas:', error);
