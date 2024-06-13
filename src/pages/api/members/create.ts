@@ -28,9 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Observacao: newPessoa.Observacao,
           foto: newPessoa.foto ? Buffer.from(newPessoa.foto, 'base64') : undefined,
           telefone: {
-            create: {
-              Numero: newPessoa.telefone
-            }
+            create: newPessoa.telefones.map((telefone: { Numero: string }) => ({
+              Numero: telefone.Numero,
+            })),
           },
           escolaridade: {
             create: {
