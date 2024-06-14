@@ -45,21 +45,48 @@ const bufferImage = (bufferData: any) => {
 export default function Cadastro({ memberData }: any) {
   const router = useRouter();
 
+  const [viewCategory, setViewCategory] = useState("Tios");
+
   const renderMembers = () => {
-    return memberData.map((member: any) => (
-      <Card
-        key={member.idPessoa}
-        imageSource={bufferImage(member.foto)}
-        titulo={member.Conjuge ? "Tio/Tia" : "Primo/Prima"}
-        nome={member.NomeCompleto}
-        infoAdicional={
-          member.telefone[0]
-            ? formatarTelefone(member.telefone[0].Numero)
-            : "N/A"
-        }
-        rota={`/cadastro/detalhes/${member.idPessoa}`}
-      />
-    ));
+    if (viewCategory === "Tios") {
+      return memberData
+        .filter((member: any) => member.Conjuge !== null)
+        .map((member: any) => (
+          <Card
+            key={member.idPessoa}
+            imageSource={bufferImage(member.foto)}
+            titulo="Tio/Tia"
+            nome={member.NomeCompleto}
+            infoAdicional={
+              member.telefone[0]
+                ? formatarTelefone(member.telefone[0].Numero)
+                : "N/A"
+            }
+            rota={`/cadastro/detalhes/${member.idPessoa}`}
+          />
+        ));
+    } else {
+      return memberData
+        .filter((member: any) => member.Conjuge === null)
+        .map((member: any) => (
+          <Card
+            key={member.idPessoa}
+            imageSource={bufferImage(member.foto)}
+            titulo="Primo/Prima"
+            nome={member.NomeCompleto}
+            infoAdicional={
+              member.telefone[0]
+                ? formatarTelefone(member.telefone[0].Numero)
+                : "N/A"
+            }
+            rota={`/cadastro/detalhes/${member.idPessoa}`}
+          />
+        ));
+    }
+  };
+
+  const handleViewChange = (Category: string) => {
+    setViewCategory(Category);
   };
   return (
     <div className="bg-bodyColor min-h-[100vh] overflow-hidden">
@@ -77,10 +104,16 @@ export default function Cadastro({ memberData }: any) {
         <Titulo conteudo="Todos os Cadastros" />
         <div className="flex mx-auto w-fit gap-[3vw] mt-[4vw]">
           <div>
-            <button className="bg-[white] rounded-l-full w-[35vw] h-[3.5vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
+            <button
+              className="bg-[white] rounded-l-full w-[35vw] h-[3.5vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100"
+              onClick={() => handleViewChange("Tios")}
+            >
               Tios/Tias
             </button>
-            <button className="bg-[white] rounded-r-full w-[35vw] h-[3.5vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
+            <button
+              className="bg-[white] rounded-r-full w-[35vw] h-[3.5vw] border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100"
+              onClick={() => handleViewChange("Primos")}
+            >
               Primos/Primas
             </button>
           </div>
