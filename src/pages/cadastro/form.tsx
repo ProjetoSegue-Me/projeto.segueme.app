@@ -239,7 +239,7 @@ export default function Form() {
                   className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
                   htmlFor="conjuge"
                 >
-                  Conjugê
+                  Cônjuge
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
