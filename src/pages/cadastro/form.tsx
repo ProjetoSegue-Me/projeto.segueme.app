@@ -397,7 +397,6 @@ export default function Form() {
                 />
               </div>
             </div>
-
             <div className="flex justify-between">
               <div className="w-full flex justify-between">
                 <label
@@ -414,7 +413,6 @@ export default function Form() {
                 />
               </div>
             </div>
-
             <div className="flex justify-between">
               <div className="w-full flex justify-between">
                 <label
@@ -431,65 +429,88 @@ export default function Form() {
                 />
               </div>
             </div>
-
-            <div className="flex flex-row justify-between ">
-              <label className="text-[1.2vw] font-roboto py-[0.25vw]">
+            <div className="flex flex-row justify-between items-center">
+              <label className="text-[1.2vw] font-roboto py-[0.25vw] w-fit">
                 Sacramento
               </label>
-              <div className="flex justify-between">
+              <span className="absolute left-[-1vw] text-red-500">*</span>
+              <div className="flex justify-between w-[82.5%] pr-[30%] items-center">
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
                   htmlFor="batismo"
                 >
-                  <input type="checkbox" id="batismo" className="mr-2" />
+                  <input
+                    type="checkbox"
+                    id="batismo"
+                    className="mr-[1vw] w-[4vw] h-[4vw] align-middle text-[#24CD68]"
+                  />
                   Batismo
                 </label>
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
                   htmlFor="eucaristia"
                 >
-                  <input type="checkbox" id="eucaristia" className="mr-2" />
+                  <input
+                    type="checkbox"
+                    id="eucaristia"
+                    className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                  />
                   Eucaristia
                 </label>
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
                   htmlFor="crisma"
                 >
-                  <input type="checkbox" id="crisma" className="mr-2" />
+                  <input
+                    type="checkbox"
+                    id="crisma"
+                    className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                  />
                   Crisma
                 </label>
               </div>
             </div>
-
             <div className="flex flex-col justify-between">
               <label className="text-[1.2vw] font-roboto py-[0.25vw]">
-                Os pais participararm do ECC?
+                Os pais participararm do ECC (Encontro de Casais com Cristo)
               </label>
-              <div className="flex justify-between">
+              <span className="absolute left-[-1vw] text-red-500">*</span>
+              <div className="flex justify-between pl-[17.5%] pr-[55%]">
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
                   htmlFor="sim"
                 >
-                  <input type="radio" id="sim" name="ecc" className="mr-2" />
+                  <input
+                    type="radio"
+                    id="sim"
+                    name="ecc"
+                    className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                  />
                   Sim
                 </label>
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
                   htmlFor="nao"
                 >
-                  <input type="radio" id="nao" name="ecc" className="mr-2" />
+                  <input
+                    type="radio"
+                    id="nao"
+                    name="ecc"
+                    className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                  />
                   Não
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between text-[1.2vw] flex-col gap-[2vw]">
+              Quem o convidou para o Retiro?
               <div className="w-full flex justify-between">
                 <label
                   className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
                   htmlFor="quem-convidou"
                 >
-                  Quem o convidou para o Retiro?
+                  Nome:
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
