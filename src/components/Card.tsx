@@ -6,14 +6,13 @@ export default function Card(props : any) {
   return (
     <div className="flex flex-col w-[25vw] font-roboto">
       <img
-        src="/images/Retiro.png"
+        src={props.imageSource}
         className="w-[7vw] h-[7vw] rounded-full ml-auto mb-[-3vw] mr-[2vw] z-10 border-[#F9CDA3] border-[0.5vw]"
       />
-      {/*TODO: Buscar dados do back-end */}
       <div className="bg-[#894a2a] w-full bg-opacity-30 rounded-3xl pl-[2vw] pt-[2vw] gap-[2vw] flex flex-col">
-        <p className="text-[1.2vw]">Segue-me</p>
-        <p className="text-[1.2vw]">10ª Edição</p>
-        <p className="text-[1.2vw]">19/07/2024 - 21/07/2024</p>
+        <p className="text-[1.2vw]">{props.titulo}</p>
+        <p className="text-[1.2vw]">{props.nome}</p>
+        <p className="text-[1.2vw]">{props.infoAdicional}</p>
 
         <div className="w-full flex flex-row gap-[1.5vw]">
           {/*TODO: Renderização condicional dos botões Editar e Deletar de acordo com a página*/}
@@ -26,7 +25,7 @@ export default function Card(props : any) {
 
           <button
             className="ml-auto mb-[1vw] mr-[2vw] w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
-            onClick={() => router.push("/cadastro")}
+            onClick={() => router.push(props.rota)}
           >
             Ver mais...
           </button>
