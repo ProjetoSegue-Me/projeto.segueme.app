@@ -378,6 +378,128 @@ export default function Form() {
             </section>
           )
         }
+        {/* Etapa 3 */}
+        {page === 3 && (
+          <section className="w-[90%] mx-auto flex flex-col gap-[2vw]">
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="religiao"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Religião
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="religiao"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="paroquia"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Paróquia
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="paroquia"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="igreja"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Igreja que Frequenta
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="igreja"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between ">
+              <label className="text-[1.2vw] font-roboto py-[0.25vw]">
+                Sacramento
+              </label>
+              <div className="flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto py-[0.25vw]"
+                  htmlFor="batismo"
+                >
+                  <input type="checkbox" id="batismo" className="mr-2" />
+                  Batismo
+                </label>
+                <label
+                  className="text-[1.2vw] font-roboto py-[0.25vw]"
+                  htmlFor="eucaristia"
+                >
+                  <input type="checkbox" id="eucaristia" className="mr-2" />
+                  Eucaristia
+                </label>
+                <label
+                  className="text-[1.2vw] font-roboto py-[0.25vw]"
+                  htmlFor="crisma"
+                >
+                  <input type="checkbox" id="crisma" className="mr-2" />
+                  Crisma
+                </label>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-between">
+              <label className="text-[1.2vw] font-roboto py-[0.25vw]">
+                Os pais participararm do ECC?
+              </label>
+              <div className="flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto py-[0.25vw]"
+                  htmlFor="sim"
+                >
+                  <input type="radio" id="sim" name="ecc" className="mr-2" />
+                  Sim
+                </label>
+                <label
+                  className="text-[1.2vw] font-roboto py-[0.25vw]"
+                  htmlFor="nao"
+                >
+                  <input type="radio" id="nao" name="ecc" className="mr-2" />
+                  Não
+                </label>
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="quem-convidou"
+                >
+                  Quem o convidou para o Retiro?
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="quem-convidou"
+                  type="text"
+                />
+              </div>
+            </div>
+          </section>
+        )}
         {
           /* Etapa 4 */
           page === 4 && (
