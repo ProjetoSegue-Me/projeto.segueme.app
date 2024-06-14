@@ -39,10 +39,10 @@ function formatarTelefone(number: string) {
 
   return formatted;
 }
-function convertByteaToUrl(bytea: any) {
-  const blob = new Blob([bytea], { type: "image/jpeg" });
-  return <img src={URL.createObjectURL(blob)} className="w-[25%]" />;
-}
+const bufferImage = (bufferData:any) => {
+  const imageBase64 = Buffer.from(bufferData.data).toString('base64');
+  return "data:image/png;base64 ," + imageBase64
+};
 export default function DetalhesMembro({ memberData }: any) {
   const router = useRouter();
   console.log(memberData);
@@ -56,7 +56,7 @@ export default function DetalhesMembro({ memberData }: any) {
         <div className="bg-[#894A2A4D] w-[90vw] mx-auto mt-[5vw] flex flex-col">
           <div className="flex flex-row ml-[2.5vw] mt-[2.5vw]">
             {/*TODO: Substituir dados placeholder com dados alimentados pelo Controller */}
-            {convertByteaToUrl(memberData.foto)}
+            <img src={bufferImage(memberData.foto)} className="w-[25%] object-contain h-[100%]" />
             <div className="flex flex-col text-[1.2vw] ml-[6vw] gap-[1vw] font-roboto">
               <p>Jovem/Casal Fichas:</p>
               <p className="mt-[2vw]">Data: 20/06/2024</p>
