@@ -181,6 +181,139 @@ export default function Form() {
       {/*Formulário*/}
 
       <form className="w-[90vw] mx-auto bg-backgroundFormColor py-[2.5vw] mt-[2.5vw]">
+        {/* Etapa 1 */}
+        {page === 1 && (
+          <section className="w-[90%] mx-auto flex flex-col gap-[2vw]">
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="jovemCasalFichas"
+                >
+                  Jovem/Casal Fichas
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="jovemCasalFichas"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="dataRecebimento"
+                >
+                  Data de Recebimento
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="dataRecebimento"
+                  type="date"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="nomeCompleto"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Nome completo
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="nomeCompleto"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="conjuge"
+                >
+                  Conjugê
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="conjuge"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-[50%] flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="nascimento"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Nascimento
+                </label>
+                <input
+                  className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="nascimento"
+                  type="date"
+                />
+              </div>
+              <div className="w-[40%] flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="naturalidade"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Naturalidade
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="naturalidade"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="filiacaoMae"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Filiação - Mãe
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="filiacaoMae"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="w-full flex justify-between">
+                <label
+                  className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="filiacaoPai"
+                >
+                  Filiação - Pai
+                </label>
+                <input
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="filiacaoPai"
+                  type="text"
+                />
+              </div>
+            </div>
+          </section>
+        )}
         {
           /*Etapa 2 */
           page === 2 && (
