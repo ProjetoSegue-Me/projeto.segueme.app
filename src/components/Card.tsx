@@ -9,7 +9,7 @@ export default function Card(props : any) {
         src={props.imageSource}
         className="w-[7vw] h-[7vw] rounded-full ml-auto mb-[-3vw] mr-[2vw] z-10 border-[#F9CDA3] border-[0.5vw]"
       />
-      <div className="bg-[#894a2a] w-full bg-opacity-30 rounded-3xl pl-[2vw] pt-[2vw] gap-[2vw] flex flex-col">
+      <div className="bg-[#894a2a] w-full bg-opacity-30 rounded-3xl pl-[2vw] pt-[2vw] gap-[1vw] flex flex-col">
         <p className="text-[1.2vw]">{props.titulo}</p>
         <p className="text-[1.2vw]">{props.nome}</p>
         <p className="text-[1.2vw]">{props.infoAdicional}</p>
