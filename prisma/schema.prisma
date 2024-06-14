@@ -25,6 +25,7 @@ model Pessoa {
   ECC             Int            @db.SmallInt
   Observacao      String?        @db.VarChar(200)
   foto            Bytes?
+  endereco        Endereco[]
   escolaridade    Escolaridade[]
   telefone        Telefone[]
 }
@@ -44,4 +45,17 @@ model Escolaridade {
   Situacao                 String? @db.VarChar(45)
   PessoaFK                 Int
   pessoa                   Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+}
+
+model Endereco {
+  idEndereco   Int    @id @default(autoincrement())
+  Rua          String @db.VarChar(60)
+  Numero       String @db.VarChar(10)
+  Complemento  String? @db.VarChar(60)
+  Bairro       String @db.VarChar(45)
+  Cidade       String @db.VarChar(45)
+  Estado       String @db.VarChar(45)
+  Cep          String @db.Char(8)
+  PessoaFK     Int
+  pessoa       Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
 }

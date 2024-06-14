@@ -10,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         include: {
           telefone: true,
           escolaridade: true,
+          endereco: true
         },
       });
 

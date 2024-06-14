@@ -42,8 +42,26 @@ CREATE TABLE "Escolaridade" (
     CONSTRAINT "Escolaridade_pkey" PRIMARY KEY ("idEscola")
 );
 
+-- CreateTable
+CREATE TABLE "Endereco" (
+    "idEndereco" SERIAL NOT NULL,
+    "Rua" VARCHAR(60) NOT NULL,
+    "Numero" VARCHAR(10) NOT NULL,
+    "Complemento" VARCHAR(60),
+    "Bairro" VARCHAR(45) NOT NULL,
+    "Cidade" VARCHAR(45) NOT NULL,
+    "Estado" VARCHAR(45) NOT NULL,
+    "Cep" CHAR(8) NOT NULL,
+    "PessoaFK" INTEGER NOT NULL,
+
+    CONSTRAINT "Endereco_pkey" PRIMARY KEY ("idEndereco")
+);
+
 -- AddForeignKey
 ALTER TABLE "Telefone" ADD CONSTRAINT "Telefone_PessoaFK_fkey" FOREIGN KEY ("PessoaFK") REFERENCES "Pessoa"("idPessoa") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Escolaridade" ADD CONSTRAINT "Escolaridade_PessoaFK_fkey" FOREIGN KEY ("PessoaFK") REFERENCES "Pessoa"("idPessoa") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Endereco" ADD CONSTRAINT "Endereco_PessoaFK_fkey" FOREIGN KEY ("PessoaFK") REFERENCES "Pessoa"("idPessoa") ON DELETE RESTRICT ON UPDATE CASCADE;

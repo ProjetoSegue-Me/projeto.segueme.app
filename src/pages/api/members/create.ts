@@ -38,8 +38,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               Instituicao: newPessoa.escolaridade.Instituicao,
               Curso: newPessoa.escolaridade.Curso,
               Situacao: newPessoa.escolaridade.Situacao,
-            }
-          }
+            },
+          },
+          endereco: {
+            create: {
+              Rua: newPessoa.endereco.Rua,
+              Numero: newPessoa.endereco.Numero,
+              Complemento: newPessoa.endereco.Complemento,
+              Bairro: newPessoa.endereco.Bairro,
+              Cidade: newPessoa.endereco.Cidade,
+              Estado: newPessoa.endereco.Estado,
+              Cep: newPessoa.endereco.Cep,
+            },
+          },
         },
       });
 
@@ -48,6 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         include: {
           telefone: true,
           escolaridade: true,
+          endereco: true,
         },
       });
 
