@@ -2,9 +2,46 @@ import { useCallback, useState } from "react";
 import * as yup from "yup";
 import Header from "@/components/Header";
 import Titulo from "@/components/Titulo";
+import { useRouter } from "next/router";
 
 export default function Form() {
+  const router = useRouter()
   const [page, setPage] = useState(1);
+
+  const [formValues, setFormValues] = useState({
+    NomeCompleto: "",
+    Email: "",
+    Instagram: "",
+    DtNascimento: "",
+    NomeMae: "",
+    NomePai: "",
+    EstadoCivil: "",
+    Paroquia: "",
+    Sacramento: [],
+    Conjuge: "",
+    Naturalidade: "",
+    Religiao: "",
+    IgrejaFrequenta: "",
+    ECC: "",
+    Observacao: "",
+    foto: "",
+    telefones: [{ Numero: "" }],
+    escolaridade: {
+      EscolaridadeCategoria: "",
+      Instituicao: "",
+      Curso: "",
+      Situacao: "",
+    },
+    endereco: {
+      Rua: "",
+      Numero: "",
+      Complemento: "",
+      Bairro: "",
+      Cidade: "",
+      Estado: "",
+      Cep: "",
+    },
+  });
 
   /*Renderizações condicionais da cor dos botões, alterar depois caso sobre tempo pra animar */
   const activeButton =
@@ -61,7 +98,30 @@ export default function Form() {
   const handleReset = () => {
     setPage(1);
   };
-//Renderização condicional dos botões
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api/members/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      });
+
+      if (response.ok) {
+        console.log("Pessoa cadastrada com sucesso!");
+        router.push("/cadastro")
+      } else {
+        console.error("Erro ao cadastrar pessoa:", response.statusText);
+        router.push({pathname:"/erro", query: {message:"Erro ao cadastrar pessoa"}})
+      }
+    } catch (error:any) {
+      console.error("Erro ao realizar requisição:", error.message);
+      router.push({ pathname: "/erro", query:  {message:"Erro ao realizar requisição"}})
+    }
+  };
+  //Renderização condicional dos botões
   const handleButtonRender = () => {
     switch (page) {
       case 1:
@@ -107,6 +167,7 @@ export default function Form() {
             <button
               className="mt-[5vw]  w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
               type="button"
+              onClick={handleSubmit}
             >
               Finalizar
             </button>
