@@ -5,7 +5,7 @@ import Titulo from "@/components/Titulo";
 import { useRouter } from "next/router";
 
 export default function Form() {
-  const router = useRouter()
+  const router = useRouter();
   const [page, setPage] = useState(1);
 
   const [formValues, setFormValues] = useState({
@@ -89,6 +89,7 @@ export default function Form() {
   //Funções dos botões
   const handleNext = () => {
     setPage((prevPage) => Math.min(prevPage + 1, 4));
+    console.log(formValues);
   };
 
   const handleBack = () => {
@@ -99,6 +100,47 @@ export default function Form() {
     setPage(1);
   };
 
+  //Mudança das caixas de input
+  const handleChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      const isChecked = checked;
+      setFormValues((prevState: any) => ({
+        ...prevState,
+        Sacramento: isChecked
+          ? [...prevState.Sacramento, name]
+          : prevState.Sacramento.filter((sac: any) => sac !== name),
+      }));
+    } else if (name.startsWith("telefones")) {
+      const index = parseInt(name.split("-")[1]);
+      const updatedTelefones = [...formValues.telefones];
+      updatedTelefones[index].Numero = value;
+      setFormValues({ ...formValues, telefones: updatedTelefones });
+    } else if (name.startsWith("endereco")) {
+      const field = name.split("-")[1];
+      setFormValues({
+        ...formValues,
+        endereco: {
+          ...formValues.endereco,
+          [field]: value,
+        },
+      });
+    } else if (name.startsWith("escolaridade")) {
+      const field = name.split("-")[1];
+      setFormValues({
+        ...formValues,
+        escolaridade: {
+          ...formValues.escolaridade,
+          [field]: value,
+        },
+      });
+    } else {
+      setFormValues({ ...formValues, [name]: value });
+    }
+  };
+  
+  //Botão enviar
   const handleSubmit = async () => {
     try {
       const response = await fetch("/api/members/create", {
@@ -111,14 +153,20 @@ export default function Form() {
 
       if (response.ok) {
         console.log("Pessoa cadastrada com sucesso!");
-        router.push("/cadastro")
+        router.push("/cadastro");
       } else {
         console.error("Erro ao cadastrar pessoa:", response.statusText);
-        router.push({pathname:"/erro", query: {message:"Erro ao cadastrar pessoa"}})
+        router.push({
+          pathname: "/erro",
+          query: { message: "Erro ao cadastrar pessoa" },
+        });
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Erro ao realizar requisição:", error.message);
-      router.push({ pathname: "/erro", query:  {message:"Erro ao realizar requisição"}})
+      router.push({
+        pathname: "/erro",
+        query: { message: "Erro ao realizar requisição" },
+      });
     }
   };
   //Renderização condicional dos botões
@@ -281,8 +329,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="nomeCompleto"
+                  id="NomeCompleto"
+                  name="NomeCompleto"
                   type="text"
+                  value={formValues.NomeCompleto}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -297,8 +348,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="conjuge"
+                  id="Conjuge"
+                  name="Conjuge"
                   type="text"
+                  value={formValues.Conjuge}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -314,8 +368,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="nascimento"
+                  id="DtNascimento"
+                  name="DtNascimento"
                   type="date"
+                  value={formValues.DtNascimento}
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-[40%] flex justify-between">
@@ -328,8 +385,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="naturalidade"
+                  id="Naturalidade"
+                  name="Naturalidade"
                   type="text"
+                  value={formValues.Naturalidade}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -345,8 +405,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="filiacaoMae"
+                  id="NomeMae"
+                  name="NomeMae"
                   type="text"
+                  value={formValues.NomeMae}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -361,8 +424,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="filiacaoPai"
+                  id="NomePai"
+                  name="NomePai"
                   type="text"
+                  value={formValues.NomePai}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -541,8 +607,11 @@ export default function Form() {
                   </label>
                   <input
                     className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                    id="email"
+                    id="Email"
+                    name="Email"
                     type="email"
+                    value={formValues.Email}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -557,8 +626,11 @@ export default function Form() {
                   </label>
                   <input
                     className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                    id="instagram"
+                    id="Instagram"
+                    name="Instagram"
                     type="text"
+                    value={formValues.Instagram}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -579,8 +651,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="religiao"
+                  id="Religiao"
+                  name="Religiao"
                   type="text"
+                  value={formValues.Religiao}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -595,8 +670,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="paroquia"
+                  id="Paroquia"
+                  name="Paroquia"
                   type="text"
+                  value={formValues.Paroquia}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -611,8 +689,11 @@ export default function Form() {
                 </label>
                 <input
                   className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                  id="igreja"
+                  id="IgrejaFrequenta"
+                  name="IgrejaFrequenta"
                   type="text"
+                  value={formValues.IgrejaFrequenta}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -787,7 +868,10 @@ export default function Form() {
                   </label>
                   <textarea
                     className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                    id="observacao"
+                    id="Observacao"
+                    name="Observacao"
+                    value={formValues.Observacao}
+                    onChange={handleChange}
                     maxLength={200}
                     rows={4}
                   />
