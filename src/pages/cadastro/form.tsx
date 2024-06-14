@@ -1,90 +1,8 @@
 import { useCallback, useState } from "react";
 import * as yup from "yup";
-import dayjs from "dayjs";
 import Header from "@/components/Header";
 import Titulo from "@/components/Titulo";
 
-{
-  /*Form usando Inertia e yup */
-}
-
-{
-  /*validação do yup usando yup Resolver*/
-}
-/*
-yup.addMethod(yup.object, "dayjs", function method(message) {
-  return this.test("dayjs", message, function validate(value) {
-    const dayjsValue = dayjs(value, "DD/MM/YYYY");
-    if (!value) {
-      return true;
-    }
-    return dayjs.isDayjs(dayjsValue);
-  });
-});
-
-const useYupValidationResolver = () =>
-  useCallback(async () => {
-    try {
-      const values = await FormSchema.validate(data, {
-        abortEarly: false,
-      });
-      return {
-        values,
-        errors: {},
-      };
-    } catch {
-      return {
-        values: {},
-        errors: errors.inner.reduce(
-          () => ({
-            ...allErrors,
-            [currentError.path]: {
-              type: currentError.type ?? "validation",
-              message: currentError.message,
-            },
-          }),
-          {}
-        ),
-      };
-    }
-  }, [FormSchema]);
-*/
-{
-  /* FormSchema do yup */
-}
-/*
-const FormSchema = yup
-  .object({
-    jovemCasalFichas: yup
-      .string()
-      .min(3, "Primeiro nome deve conter no mínimo 3 letras.")
-      .required("Este campo é obrigatório."),
-
-    data: yup.object().dayjs("teste"),
-
-    nomeCompleto: yup
-      .string()
-      .min(3, "O nome deve conter no mínimo 3 letras.")
-      .required("Este campo é obrigatório."),
-    conjuge: yup
-      .string()
-      .min(3, "O nome do cônjuge deve conter no mínimo 3 letras.")
-      .required("Este campo é obrigatório."),
-    naturalidade: yup
-      .string()
-      .min(3, "O nome do local deve conter no mínimo 3 letras.")
-      .required("Este campo é obrigatório."),
-    filiacaoPai: yup
-      .string()
-      .min(3, "O nome do pai deve conter no mínimo 3 letras.")
-      .required("Este campo é obrigatório."),
-    filiacaoMae: yup
-      .string()
-      .min(3, "O nome da mãe deve conter no mínimo 3 letras.")
-      .required("Este campo é obrigatório."),
-  })
-  .required();
-  */
 export default function Form() {
   const [page, setPage] = useState(1);
 
@@ -129,6 +47,81 @@ export default function Form() {
 
       default:
         break;
+    }
+  };
+  //Funções dos botões
+  const handleNext = () => {
+    setPage((prevPage) => Math.min(prevPage + 1, 4));
+  };
+
+  const handleBack = () => {
+    setPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleReset = () => {
+    setPage(1);
+  };
+//Renderização condicional dos botões
+  const handleButtonRender = () => {
+    switch (page) {
+      case 1:
+        return (
+          <button
+            className="mt-[5vw] mx-auto w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
+            type="button"
+            onClick={handleNext}
+          >
+            Avançar &gt;
+          </button>
+        );
+      case 2:
+      case 3:
+        return (
+          <>
+            <button
+              className="mt-[5vw]  w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
+              type="button"
+              onClick={handleBack}
+            >
+              &lt; Voltar
+            </button>
+            <button
+              className="mt-[5vw] ml-[5vw] w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
+              type="button"
+              onClick={handleNext}
+            >
+              Avançar &gt;
+            </button>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <button
+              className="mt-[5vw]  w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
+              type="button"
+              onClick={handleBack}
+            >
+              &lt; Voltar
+            </button>
+            <button
+              className="mt-[5vw]  w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
+              type="button"
+            >
+              Finalizar
+            </button>
+          </>
+        );
+      default:
+        return (
+          <button
+            className="mt-[5vw]  w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
+            type="button"
+            onClick={handleReset}
+          >
+            Restaurar
+          </button>
+        );
     }
   };
 
@@ -759,6 +752,9 @@ export default function Form() {
           )
         }
       </form>
+      <div className="w-[25vw] flex flec-row justify-between mx-auto">
+        {handleButtonRender()}
+      </div>
     </main>
   );
 }
