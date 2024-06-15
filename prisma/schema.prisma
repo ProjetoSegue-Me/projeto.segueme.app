@@ -32,31 +32,31 @@ model Pessoa {
 }
 
 model Telefone {
-  idTelefone Int     @id @default(autoincrement())
-  Numero     String? @db.Char(11)
-  PessoaFK   Int
-  pessoa     Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+  idTelefone  Int     @id @default(autoincrement())
+  Numero      String? @db.Char(11)
+  PessoaFK    Int
+  pessoa      Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
 }
 
 model Escolaridade {
-  idEscola              Int     @id @default(autoincrement())
-  EscolaridadeCategoria String  @db.VarChar(45)
-  Instituicao           String? @db.VarChar(60)
-  Curso                 String? @db.VarChar(60)
-  Situacao              String? @db.VarChar(45)
-  PessoaFK              Int
-  pessoa                Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+  idEscola                 Int     @id @default(autoincrement())
+  EscolaridadeCategoria    String  @db.VarChar(45)
+  Instituicao              String? @db.VarChar(60)
+  Curso                    String? @db.VarChar(60)
+  Situacao                 String? @db.VarChar(45)
+  PessoaFK                 Int
+  pessoa                   Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
 }
 
 model Endereco {
-  idEndereco  Int     @id @default(autoincrement())
-  Rua         String  @db.VarChar(60)
-  Numero      String  @db.VarChar(10)
-  Complemento String? @db.VarChar(60)
-  Bairro      String  @db.VarChar(45)
-  Cidade      String  @db.VarChar(45)
-  Estado      String  @db.VarChar(45)
-  Cep         String  @db.Char(8)
-  PessoaFK    Int
-  pessoa      Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+  idEndereco   Int    @id @default(autoincrement())
+  Rua          String @db.VarChar(60)
+  Numero       String @db.VarChar(10)
+  Complemento  String? @db.VarChar(60)
+  Bairro       String @db.VarChar(45)
+  Cidade       String @db.VarChar(45)
+  Estado       String @db.VarChar(45)
+  Cep          String @db.Char(8)
+  PessoaFK     Int
+  pessoa       Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
 }
