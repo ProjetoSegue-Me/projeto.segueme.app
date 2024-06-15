@@ -104,7 +104,7 @@ export default function Form() {
   //Mudança das caixas de input
 
   const handleChange = async (e: any) => {
-    const { name, value, type, checked } = e.target;
+    const { name, files, value, type, checked } = e.target;
 
     if (type === "checkbox") {
       let sacramentoArray = formValues.Sacramento.split(", ").filter(Boolean);
@@ -124,10 +124,10 @@ export default function Form() {
         ...prevState,
         Sacramento: sacramentoString,
       }));
-    } else if (name.startsWith("telefones")) {
-      const index = parseInt(name.split("-")[1]);
+    } else if (name.startsWith("telefone")) {
+      const index = parseInt(name.slice(-2)) - 1;
       const updatedTelefones = [...formValues.telefones];
-      updatedTelefones[index].Numero = value;
+      updatedTelefones[index] = { Numero: value };
       setFormValues({ ...formValues, telefones: updatedTelefones });
     } else if (name.startsWith("endereco")) {
       const field = name.split("-")[1];
@@ -149,6 +149,18 @@ export default function Form() {
       });
     } else if (name === "ecc") {
       setFormValues({ ...formValues, ECC: value === "Sim" ? 1 : 0 });
+    } else if (name === "foto" && files?.length) {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          const base64String = reader.result.split(",")[1]; // Get base64 part only
+          setFormValues({ ...formValues, foto: base64String });
+        }
+      };
+
+      reader.readAsDataURL(file);
     } else {
       setFormValues({ ...formValues, [name]: value });
     }
@@ -501,6 +513,9 @@ export default function Form() {
                     className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="telefone01"
                     type="text"
+                    name="telefone01"
+                    value={formValues.telefones[0].Numero}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="w-[40%] flex justify-between">
@@ -514,6 +529,13 @@ export default function Form() {
                     className="w-[75%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="telefone02"
                     type="text"
+                    name="telefone02"
+                    value={
+                      formValues.telefones[1]
+                        ? formValues.telefones[1].Numero
+                        : ""
+                    }
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -1013,10 +1035,25 @@ export default function Form() {
                   >
                     Foto
                   </label>
+                  {formValues.foto && (
+                    <div>
+                      <img
+                        src={`data:image/jpeg;base64,${formValues.foto}`}
+                        alt="Uploaded"
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          marginTop: "10px",
+                        }}
+                      />
+                    </div>
+                  )}
                   <input
                     className="w-[20%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="foto"
                     type="file"
+                    name="foto"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -1024,7 +1061,7 @@ export default function Form() {
           )
         }
       </form>
-      <div className="w-[25vw] flex flec-row justify-between mx-auto">
+      <div className="w-[25vw] pb-[4vw] flex flec-row justify-between mx-auto">
         {handleButtonRender()}
       </div>
     </main>
