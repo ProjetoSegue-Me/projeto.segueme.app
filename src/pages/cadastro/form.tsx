@@ -8,6 +8,7 @@ export default function Form() {
   const router = useRouter();
   const [page, setPage] = useState(1);
 
+  //Valores a serem enviados
   const [formValues, setFormValues] = useState({
     NomeCompleto: "",
     Email: "",
@@ -17,12 +18,12 @@ export default function Form() {
     NomePai: "",
     EstadoCivil: "",
     Paroquia: "",
-    Sacramento: [],
+    Sacramento: "",
     Conjuge: "",
     Naturalidade: "",
     Religiao: "",
     IgrejaFrequenta: "",
-    ECC: "",
+    ECC: 0,
     Observacao: "",
     foto: "",
     telefones: [{ Numero: "" }],
@@ -101,16 +102,27 @@ export default function Form() {
   };
 
   //Mudança das caixas de input
-  const handleChange = (e: any) => {
+
+  const handleChange = async (e: any) => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") {
-      const isChecked = checked;
+      let sacramentoArray = formValues.Sacramento.split(", ").filter(Boolean);
+
+      if (checked) {
+        sacramentoArray.push(name);
+      } else {
+        sacramentoArray = sacramentoArray.filter((sac: string) => sac !== name);
+      }
+      const sacramentoOrder = ["Batismo", "Eucaristia", "Crisma"];
+      sacramentoArray = sacramentoArray.sort(
+        (a, b) => sacramentoOrder.indexOf(a) - sacramentoOrder.indexOf(b)
+      );
+
+      const sacramentoString = sacramentoArray.join(", ").slice(0, 45);
       setFormValues((prevState: any) => ({
         ...prevState,
-        Sacramento: isChecked
-          ? [...prevState.Sacramento, name]
-          : prevState.Sacramento.filter((sac: any) => sac !== name),
+        Sacramento: sacramentoString,
       }));
     } else if (name.startsWith("telefones")) {
       const index = parseInt(name.split("-")[1]);
@@ -135,11 +147,47 @@ export default function Form() {
           [field]: value,
         },
       });
+    } else if (name === "ecc") {
+      setFormValues({ ...formValues, ECC: value === "Sim" ? 1 : 0 });
     } else {
       setFormValues({ ...formValues, [name]: value });
     }
+    if (name.startsWith("endereco")) {
+      const field = name.split("-")[1];
+      setFormValues((prevState: any) => ({
+        ...prevState,
+        endereco: {
+          ...prevState.endereco,
+          [field]: value,
+        },
+      }));
+      if (field === "Cep" && value.length === 8) {
+        try {
+          const response = await fetch(
+            `https://viacep.com.br/ws/${value}/json/`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            if (!data.erro) {
+              setFormValues((prevState: any) => ({
+                ...prevState,
+                endereco: {
+                  ...prevState.endereco,
+                  Rua: data.logradouro || "",
+                  Bairro: data.bairro || "",
+                  Cidade: data.localidade || "",
+                  Estado: data.uf || "",
+                },
+              }));
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching address:", error);
+        }
+      }
+    }
   };
-  
+
   //Botão enviar
   const handleSubmit = async () => {
     try {
@@ -485,6 +533,9 @@ export default function Form() {
                     className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="cep"
                     type="text"
+                    name="endereco-Cep"
+                    value={formValues.endereco.Cep}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="w-[40%] flex justify-between">
@@ -501,6 +552,9 @@ export default function Form() {
                     className="w-[75%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="numero"
                     type="text"
+                    name="endereco-Numero"
+                    value={formValues.endereco.Numero}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -517,9 +571,12 @@ export default function Form() {
                     Endereço
                   </label>
                   <input
-                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="endereco"
                     type="text"
+                    name="endereco-Rua"
+                    value={formValues.endereco.Rua}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -536,9 +593,12 @@ export default function Form() {
                     Bairro
                   </label>
                   <input
-                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="bairro"
                     type="text"
+                    name="endereco-Bairro"
+                    value={formValues.endereco.Bairro}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -558,6 +618,9 @@ export default function Form() {
                     className="w-[65%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="cidade"
                     type="text"
+                    name="endereco-Cidade"
+                    value={formValues.endereco.Cidade}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="w-[40%] flex justify-between">
@@ -571,9 +634,12 @@ export default function Form() {
                     Estado
                   </label>
                   <input
-                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="estado"
                     type="text"
+                    name="endereco-Estado"
+                    value={formValues.endereco.Estado}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -587,9 +653,12 @@ export default function Form() {
                     Complemento
                   </label>
                   <input
-                    className="w-[82.5%]  text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="complemento"
                     type="text"
+                    name="endereco-Complemento"
+                    value={formValues.endereco.Complemento}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -710,7 +779,10 @@ export default function Form() {
                   <input
                     type="checkbox"
                     id="batismo"
+                    name="Batismo"
                     className="mr-[1vw] w-[4vw] h-[4vw] align-middle text-[#24CD68]"
+                    onChange={handleChange}
+                    checked={formValues.Sacramento.includes("Batismo")}
                   />
                   Batismo
                 </label>
@@ -721,7 +793,10 @@ export default function Form() {
                   <input
                     type="checkbox"
                     id="eucaristia"
+                    name="Eucaristia"
                     className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                    onChange={handleChange}
+                    checked={formValues.Sacramento.includes("Eucaristia")}
                   />
                   Eucaristia
                 </label>
@@ -732,7 +807,10 @@ export default function Form() {
                   <input
                     type="checkbox"
                     id="crisma"
+                    name="Crisma"
                     className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                    onChange={handleChange}
+                    checked={formValues.Sacramento.includes("Crisma")}
                   />
                   Crisma
                 </label>
@@ -740,7 +818,7 @@ export default function Form() {
             </div>
             <div className="flex flex-col justify-between">
               <label className="text-[1.2vw] font-roboto py-[0.25vw]">
-                Os pais participararm do ECC (Encontro de Casais com Cristo)
+                Os pais participaram do ECC (Encontro de Casais com Cristo)
               </label>
               <span className="absolute left-[-1vw] text-red-500">*</span>
               <div className="flex justify-between pl-[17.5%] pr-[55%]">
@@ -752,7 +830,10 @@ export default function Form() {
                     type="radio"
                     id="sim"
                     name="ecc"
+                    value="Sim"
                     className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                    onChange={handleChange}
+                    checked={formValues.ECC === 1}
                   />
                   Sim
                 </label>
@@ -764,7 +845,10 @@ export default function Form() {
                     type="radio"
                     id="nao"
                     name="ecc"
+                    value="Não"
                     className="mr-[1vw] w-[4vw] h-[4vw] align-middle"
+                    onChange={handleChange}
+                    checked={formValues.ECC === 0}
                   />
                   Não
                 </label>
@@ -793,21 +877,55 @@ export default function Form() {
           /* Etapa 4 */
           page === 4 && (
             <section className="w-[90%] mx-auto flex flex-col gap-[2vw]">
-              <div className="flex justify-between">
-                <div className="w-full flex justify-between">
-                  <label
-                    className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
-                    htmlFor="escolaridade"
-                  >
-                    <span className="absolute left-[-1vw] text-red-500">*</span>
-                    Escolaridade
-                  </label>
-                  <input
-                    className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
-                    id="escolaridade"
-                    type="text"
-                  />
-                </div>
+              <div className="w-full flex justify-between">
+                <label
+                  className="relative text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  htmlFor="escolaridade"
+                >
+                  <span className="absolute left-[-1vw] text-red-500">*</span>
+                  Escolaridade
+                </label>
+                <select
+                  className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
+                  id="escolaridade"
+                  name="escolaridade-EscolaridadeCategoria"
+                  onChange={handleChange}
+                  value={formValues.escolaridade.EscolaridadeCategoria}
+                >
+                  <option value="">Selecione uma opção</option>
+                  <option value="Fundamental - Incompleto">
+                    Fundamental - Incompleto
+                  </option>
+                  <option value="Fundamental - Completo">
+                    Fundamental - Completo
+                  </option>
+                  <option value="Médio - Incompleto">Médio - Incompleto</option>
+                  <option value="Médio - Completo">Médio - Completo</option>
+                  <option value="Superior - Incompleto">
+                    Superior - Incompleto
+                  </option>
+                  <option value="Superior - Completo">
+                    Superior - Completo
+                  </option>
+                  <option value="Pós-graduação - Incompleto">
+                    Pós-graduação - Incompleto
+                  </option>
+                  <option value="Pós-graduação - Completo">
+                    Pós-graduação - Completo
+                  </option>
+                  <option value="Mestrado - Incompleto">
+                    Mestrado - Incompleto
+                  </option>
+                  <option value="Mestrado - Completo">
+                    Mestrado - Completo
+                  </option>
+                  <option value="Doutorado - Incompleto">
+                    Doutorado - Incompleto
+                  </option>
+                  <option value="Doutorado - Completo">
+                    Doutorado - Completo
+                  </option>
+                </select>
               </div>
 
               <div className="flex justify-between">
@@ -821,6 +939,9 @@ export default function Form() {
                   <input
                     className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="situacao"
+                    name="escolaridade-Situacao"
+                    onChange={handleChange}
+                    value={formValues.escolaridade.Situacao}
                     type="text"
                   />
                 </div>
@@ -837,6 +958,9 @@ export default function Form() {
                   <input
                     className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="curso"
+                    name="escolaridade-Curso"
+                    onChange={handleChange}
+                    value={formValues.escolaridade.Curso}
                     type="text"
                   />
                 </div>
@@ -853,6 +977,9 @@ export default function Form() {
                   <input
                     className="w-[82.5%] text-[1.2vw] font-roboto shadow appearance-none border rounded py-[0.25vw] text-gray-700 leading-tight focus:outline-colorStep focus:shadow-outline"
                     id="instituicao"
+                    name="escolaridade-Instituicao"
+                    onChange={handleChange}
+                    value={formValues.escolaridade.Instituicao}
                     type="text"
                   />
                 </div>
