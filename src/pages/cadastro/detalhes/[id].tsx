@@ -39,8 +39,17 @@ function formatarTelefone(number: string) {
 
   return formatted;
 }
-const bufferImage = (bufferData:any) => {
+
+function formatarCEP(cep: string) {
+  const cleaned = cep.replace(/\D/g, "");
+
+  const formatted = `${cleaned.substring(0, 5)} - ${cleaned.substring(5, 8)}`;
+
+  return formatted;
+}
+const bufferImage = (bufferData: any) => {
   const imageBase64 = Buffer.from(bufferData.data).toString('base64');
+
   return "data:image/png;base64 ," + imageBase64
 };
 export default function DetalhesMembro({ memberData }: any) {
@@ -55,7 +64,6 @@ export default function DetalhesMembro({ memberData }: any) {
 
         <div className="bg-[#894A2A4D] w-[90vw] mx-auto mt-[5vw] flex flex-col">
           <div className="flex flex-row ml-[2.5vw] mt-[2.5vw]">
-            {/*TODO: Substituir dados placeholder com dados alimentados pelo Controller */}
             <img src={bufferImage(memberData.foto)} className="w-[25%] object-contain h-[100%]" />
             <div className="flex flex-col text-[1.2vw] ml-[6vw] gap-[1vw] font-roboto">
               <p>Jovem/Casal Fichas:</p>
@@ -78,10 +86,10 @@ export default function DetalhesMembro({ memberData }: any) {
                     : "N/A"}
                 </p>
               </div>
-              <p>Endereço: Rua das Orquídeas, Nº 37</p>
+              <p>Endereço: {memberData.endereco[0].Rua}, Nº {memberData.endereco[0].Numero}</p>
               <div className="flex flex-row w-[60vw] justify-between">
-                <p>Bairro: Coxipó</p>
-                <p className="w-[50%]">CEP: 78840-000</p>
+                <p>Bairro: {memberData.endereco[0].Bairro}</p>
+                <p className="w-[50%]">CEP: {formatarCEP(memberData.endereco[0].Cep)}</p>
               </div>
               <p>E-mail: {memberData.Email}</p>
               <p>
