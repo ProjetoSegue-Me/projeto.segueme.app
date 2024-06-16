@@ -33,6 +33,7 @@ export default async function handler(
         return res.status(200).json(pessoa);
       }
     } catch (error) {
+      const { id } = req.body || req.query;
       console.error(`Failed to fetch pessoa with id ${id}:`, error);
       return res.status(500).json({ error: "Failed to fetch pessoa" });
     } finally {
