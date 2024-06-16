@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { fromZonedTime } from 'date-fns-tz'; // npm install date-fns-tz
 
 const prisma = new PrismaClient();
 
@@ -8,12 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     const newPessoa = req.body;
     console.log('Received data:', newPessoa); // log para verificar os dados recebidos no terminal
+
     try {
-    const date = new Date();
-    const timeZone = 'America/Cuiaba'; // substituído pelo fuso horário desejado
-
-    const createdAt = fromZonedTime(date, timeZone);
-
+      // Criação da pessoa
       const createdPessoa = await prisma.pessoa.create({
         data: {
           NomeCompleto: newPessoa.NomeCompleto,
@@ -32,7 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           ECC: newPessoa.ECC,
           Observacao: newPessoa.Observacao,
           foto: newPessoa.foto ? Buffer.from(newPessoa.foto, 'base64') : undefined,
-          createdAt: createdAt, // formatado acima
           telefone: {
             create: newPessoa.telefones.map((telefone: { Numero: string }) => ({
               Numero: telefone.Numero,
@@ -58,10 +53,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
           },
         },
-      });
-
-      const pessoaComRelacoes = await prisma.pessoa.findUnique({
-        where: { idPessoa: createdPessoa.idPessoa },
         include: {
           telefone: true,
           escolaridade: true,
@@ -69,8 +60,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
-      res.status(201).json(pessoaComRelacoes);
-    } catch (error) {
+      res.status(201).json(createdPessoa);
+    } catch (error: any) {
       console.error('Failed to create pessoa:', error);
       res.status(500).json({ error: `Failed to create pessoa: ${error.message}` });
     } finally {
