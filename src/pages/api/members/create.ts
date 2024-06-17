@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const newPessoa = req.body;
-    console.log('Received data:', newPessoa); // log para verificar os dados recebidos no terminal
+    console.log('Received data:', newPessoa);
 
     try {
       // Criação da pessoa
