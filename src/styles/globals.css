@@ -5,6 +5,7 @@
 body{
   overflow-x: hidden;
   background-color: #F9CDA3;
+  font-size: 1.2vw
 }
 body.loading {
   cursor: wait;

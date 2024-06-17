@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Titulo from "@/components/Titulo";
 import { useRouter } from "next/navigation";
 import Card from "@/components/Card";
+import Modal from "@/components/Modal";
 
 const fetchAll = async () => {
   try {
@@ -45,7 +46,42 @@ const bufferImage = (bufferData: any) => {
 export default function Cadastro({ memberData }: any) {
   const router = useRouter();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("Delete");
+
   const [viewCategory, setViewCategory] = useState("Tios");
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<String[]>([]);
+
+  const handleDelete = () => {
+    // TODO: Adicionar lógica de delete
+    console.log("Item deleted");
+    setIsModalOpen(false);
+  };
+
+  const handleSearchChange = async (e: any) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    const response = await fetch(`/api/members/search?searchTerm=${term}`);
+    const results = await response.json();
+
+  if (Array.isArray(results)) {
+    setSearchResults(results);
+  }else{
+    setSearchResults([])
+  }
+  };
+
+  const handleOpenDelete = () => {
+    setIsModalOpen(true);
+    setModalType("Delete");
+  };
+
+  const handleOpenSearch = () => {
+    setIsModalOpen(true);
+    setModalType("Search");
+  };
 
   const renderMembers = () => {
     if (viewCategory === "Tios") {
@@ -57,6 +93,7 @@ export default function Cadastro({ memberData }: any) {
             imageSource={bufferImage(member.foto)}
             titulo="Tio/Tia"
             nome={member.NomeCompleto}
+            openDelete={handleOpenDelete}
             infoAdicional={
               member.telefone[0]
                 ? formatarTelefone(member.telefone[0].Numero)
@@ -74,6 +111,7 @@ export default function Cadastro({ memberData }: any) {
             imageSource={bufferImage(member.foto)}
             titulo="Primo/Prima"
             nome={member.NomeCompleto}
+            openDelete={handleOpenDelete}
             infoAdicional={
               member.telefone[0]
                 ? formatarTelefone(member.telefone[0].Numero)
@@ -117,7 +155,10 @@ export default function Cadastro({ memberData }: any) {
               Primos/Primas
             </button>
           </div>
-          <button className="bg-[white] rounded-full w-[3.5vw] h-[3.5vw]  border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100">
+          <button
+            className="bg-[white] rounded-full w-[3.5vw] h-[3.5vw]  border-[1px] border-[#FFB718] text-[1.2vw] hover:bg-[#ffead6] ease-in duration-100"
+            onClick={handleOpenSearch}
+          >
             <img src="/images/Pesquisa.png" className="h-[1.5vw] mx-auto" />
           </button>
         </div>
@@ -131,6 +172,19 @@ export default function Cadastro({ memberData }: any) {
           </div>
         )}
       </div>
+      {isModalOpen && (
+        <Modal
+          type={modalType}
+          conteudo={modalType == "Delete" ? "Cadastro" : "Nome"}
+          titulo={
+            modalType == "Delete" ? "Confirmar Exclusão" : "Pesquisar Cadastro"
+          }
+          onClose={() => setIsModalOpen(false)}
+          searchResults={searchResults}
+          searchTerm={searchTerm}
+          onChange={handleSearchChange}
+        ></Modal>
+      )}
     </div>
   );
 }
