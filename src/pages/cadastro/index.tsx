@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Titulo from "@/components/Titulo";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Card from "@/components/Card";
 import Modal from "@/components/Modal";
 
@@ -75,7 +75,7 @@ export default function Cadastro({ memberData }: any) {
 
       const result = await response.json();
       console.log(result);
-      router.refresh() 
+      router.reload();
       setIsModalOpen(false);
     } catch (error) {
       console.error("Failed to delete member:", error);
@@ -99,7 +99,7 @@ export default function Cadastro({ memberData }: any) {
     setID(id);
     setModalType("Delete");
     setIsModalOpen(true);
-    console.log(ID)
+    console.log(ID);
   };
 
   const handleOpenSearch = () => {
@@ -118,6 +118,12 @@ export default function Cadastro({ memberData }: any) {
             titulo="Tio/Tia"
             nome={member.NomeCompleto}
             openDelete={() => handleOpenDelete(member.idPessoa)}
+            openEdit={() =>
+              router.push({
+                pathname: "/cadastro/form",
+                query: { id: member.idPessoa },
+              })
+            }
             infoAdicional={
               member.telefone[0]
                 ? formatarTelefone(member.telefone[0].Numero)
@@ -136,6 +142,12 @@ export default function Cadastro({ memberData }: any) {
             titulo="Primo/Prima"
             nome={member.NomeCompleto}
             openDelete={() => handleOpenDelete(member.idPessoa)}
+            openEdit={() =>
+              router.push({
+                pathname: "/cadastro/form",
+                query: { id: member.idPessoa },
+              })
+            }
             infoAdicional={
               member.telefone[0]
                 ? formatarTelefone(member.telefone[0].Numero)

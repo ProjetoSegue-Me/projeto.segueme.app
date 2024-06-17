@@ -3,45 +3,126 @@ import * as yup from "yup";
 import Header from "@/components/Header";
 import Titulo from "@/components/Titulo";
 import { useRouter } from "next/router";
+const fetchMemberById = async (memberId: string) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/members/getById?id=${memberId}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    return null;
+  }
+};
 
-export default function Form() {
+export async function getServerSideProps(query: any) {
+  const { id } = query.query;
+  console.log(`Server-side fetch for member ID: ${id}`);
+
+  const memberData = await fetchMemberById(id);
+  console.log(memberData);
+  return {
+    props: { memberData },
+  };
+}
+export default function Form({ memberData }: any) {
   const router = useRouter();
   const [page, setPage] = useState(1);
 
+  //Buffer Received Image
+  const bufferImage = (bufferData: any) => {
+    const imageBase64 = Buffer.from(bufferData.data).toString("base64");
+    return imageBase64;
+  };
+  const parseDate = (dateString: any) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
   //Valores a serem enviados
-  const [formValues, setFormValues] = useState({
-    NomeCompleto: "",
-    Email: "",
-    Instagram: "",
-    DtNascimento: "",
-    NomeMae: "",
-    NomePai: "",
-    EstadoCivil: "",
-    Paroquia: "",
-    Sacramento: "",
-    Conjuge: "",
-    Naturalidade: "",
-    Religiao: "",
-    IgrejaFrequenta: "",
-    ECC: 0,
-    Observacao: "",
-    foto: "",
-    telefones: [{ Numero: "" }],
-    escolaridade: {
-      EscolaridadeCategoria: "",
-      Instituicao: "",
-      Curso: "",
-      Situacao: "",
-    },
-    endereco: {
-      Rua: "",
-      Numero: "",
-      Complemento: "",
-      Bairro: "",
-      Cidade: "",
-      Estado: "",
-      Cep: "",
-    },
+  const [formValues, setFormValues] = useState(() => {
+    if (memberData) {
+      return {
+        idPessoa: memberData.idPessoa,
+        NomeCompleto: memberData.NomeCompleto || "",
+        Email: memberData.Email || "",
+        Instagram: memberData.Instagram || "",
+        DtNascimento: parseDate(memberData.DtNascimento) || "",
+        NomeMae: memberData.NomeMae || "",
+        NomePai: memberData.NomePai || "",
+        EstadoCivil: memberData.EstadoCivil || "",
+        Paroquia: memberData.Paroquia || "",
+        Sacramento: memberData.Sacramento || "",
+        Conjuge: memberData.Conjuge || "",
+        Naturalidade: memberData.Naturalidade || "",
+        Religiao: memberData.Religiao || "",
+        IgrejaFrequenta: memberData.IgrejaFrequenta || "",
+        ECC: memberData.ECC || 0,
+        Observacao: memberData.Observacao || "",
+        foto: bufferImage(memberData.foto) || "",
+        telefones: memberData.telefone || [{ Numero: "" }],
+        escolaridade: {
+          idEscola: memberData.escolaridade[0]?.idEscola || "",
+          EscolaridadeCategoria:
+            memberData.escolaridade[0]?.EscolaridadeCategoria || "",
+          Instituicao: memberData.escolaridade[0]?.Instituicao || "",
+          Curso: memberData.escolaridade[0]?.Curso || "",
+          Situacao: memberData.escolaridade[0]?.Situacao || "",
+        },
+        endereco: {
+          idEndereco: memberData.endereco[0]?.idEndereco || "",
+          Rua: memberData.endereco[0]?.Rua || "",
+          Numero: memberData.endereco[0]?.Numero || "",
+          Complemento: memberData.endereco[0]?.Complemento || "",
+          Bairro: memberData.endereco[0]?.Bairro || "",
+          Cidade: memberData.endereco[0]?.Cidade || "",
+          Estado: memberData.endereco[0]?.Estado || "",
+          Cep: memberData.endereco[0]?.Cep || "",
+        },
+      };
+    } else {
+      return {
+        NomeCompleto: "",
+        Email: "",
+        Instagram: "",
+        DtNascimento: "",
+        NomeMae: "",
+        NomePai: "",
+        EstadoCivil: "",
+        Paroquia: "",
+        Sacramento: "",
+        Conjuge: "",
+        Naturalidade: "",
+        Religiao: "",
+        IgrejaFrequenta: "",
+        ECC: 0,
+        Observacao: "",
+        foto: "",
+        telefones: [{ Numero: "" }],
+        escolaridade: {
+          EscolaridadeCategoria: "",
+          Instituicao: "",
+          Curso: "",
+          Situacao: "",
+        },
+        endereco: {
+          Rua: "",
+          Numero: "",
+          Complemento: "",
+          Bairro: "",
+          Cidade: "",
+          Estado: "",
+          Cep: "",
+        },
+      };
+    }
   });
 
   /*Renderizações condicionais da cor dos botões, alterar depois caso sobre tempo pra animar */
@@ -90,7 +171,6 @@ export default function Form() {
   //Funções dos botões
   const handleNext = () => {
     setPage((prevPage) => Math.min(prevPage + 1, 4));
-    console.log(formValues);
   };
 
   const handleBack = () => {
@@ -116,7 +196,8 @@ export default function Form() {
       }
       const sacramentoOrder = ["Batismo", "Eucaristia", "Crisma"];
       sacramentoArray = sacramentoArray.sort(
-        (a, b) => sacramentoOrder.indexOf(a) - sacramentoOrder.indexOf(b)
+        (a: any, b: any) =>
+          sacramentoOrder.indexOf(a) - sacramentoOrder.indexOf(b)
       );
 
       const sacramentoString = sacramentoArray.join(", ").slice(0, 45);
@@ -155,7 +236,7 @@ export default function Form() {
 
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
-          const base64String = reader.result.split(",")[1]; // Get base64 part only
+          const base64String = reader.result.split(",")[1];
           setFormValues({ ...formValues, foto: base64String });
         }
       };
@@ -203,8 +284,11 @@ export default function Form() {
   //Botão enviar
   const handleSubmit = async () => {
     try {
-      const response = await fetch("/api/members/create", {
-        method: "POST",
+      const url = memberData ? "/api/members/update" : "/api/members/create";
+      const method = memberData ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -212,13 +296,26 @@ export default function Form() {
       });
 
       if (response.ok) {
-        console.log("Pessoa cadastrada com sucesso!");
+        console.log(
+          memberData
+            ? "Pessoa atualizada com sucesso!"
+            : "Pessoa cadastrada com sucesso!"
+        );
         router.push("/cadastro");
       } else {
-        console.error("Erro ao cadastrar pessoa:", response.statusText);
+        console.error(
+          memberData
+            ? "Erro ao atualizar pessoa:"
+            : "Erro ao cadastrar pessoa:",
+          response.statusText
+        );
         router.push({
           pathname: "/erro",
-          query: { message: "Erro ao cadastrar pessoa" },
+          query: {
+            message: memberData
+              ? "Erro ao atualizar pessoa"
+              : "Erro ao cadastrar pessoa",
+          },
         });
       }
     } catch (error: any) {
