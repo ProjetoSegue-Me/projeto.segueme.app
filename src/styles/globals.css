@@ -4,6 +4,10 @@
 
 body{
   overflow-x: hidden;
+  background-color: #F9CDA3;
+}
+body.loading {
+  cursor: wait;
 }
 @layer utilities {
   .text-balance {
