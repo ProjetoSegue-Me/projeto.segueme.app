@@ -24,7 +24,6 @@ export async function getServerSideProps(query: any) {
   console.log(`Server-side fetch for member ID: ${id}`);
 
   const memberData = await fetchMemberById(id);
-  console.log(memberData);
   return {
     props: { memberData },
   };
