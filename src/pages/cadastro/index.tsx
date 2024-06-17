@@ -45,19 +45,41 @@ const bufferImage = (bufferData: any) => {
 
 export default function Cadastro({ memberData }: any) {
   const router = useRouter();
-
+  //Modal info
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("Delete");
 
+  //Renderização condicional de categoria
   const [viewCategory, setViewCategory] = useState("Tios");
 
+  //Termos de pesquisa
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<String[]>([]);
 
-  const handleDelete = () => {
-    // TODO: Adicionar lógica de delete
-    console.log("Item deleted");
-    setIsModalOpen(false);
+  //Id de deleção e edição
+  const [ID, setID] = useState();
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch("/api/members/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: ID }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log(result);
+      router.refresh() 
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Failed to delete member:", error);
+    }
   };
 
   const handleSearchChange = async (e: any) => {
@@ -66,21 +88,23 @@ export default function Cadastro({ memberData }: any) {
     const response = await fetch(`/api/members/search?searchTerm=${term}`);
     const results = await response.json();
 
-  if (Array.isArray(results)) {
-    setSearchResults(results);
-  }else{
-    setSearchResults([])
-  }
+    if (Array.isArray(results)) {
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
+    }
   };
 
-  const handleOpenDelete = () => {
-    setIsModalOpen(true);
+  const handleOpenDelete = (id: any) => {
+    setID(id);
     setModalType("Delete");
+    setIsModalOpen(true);
+    console.log(ID)
   };
 
   const handleOpenSearch = () => {
-    setIsModalOpen(true);
     setModalType("Search");
+    setIsModalOpen(true);
   };
 
   const renderMembers = () => {
@@ -93,7 +117,7 @@ export default function Cadastro({ memberData }: any) {
             imageSource={bufferImage(member.foto)}
             titulo="Tio/Tia"
             nome={member.NomeCompleto}
-            openDelete={handleOpenDelete}
+            openDelete={() => handleOpenDelete(member.idPessoa)}
             infoAdicional={
               member.telefone[0]
                 ? formatarTelefone(member.telefone[0].Numero)
@@ -111,7 +135,7 @@ export default function Cadastro({ memberData }: any) {
             imageSource={bufferImage(member.foto)}
             titulo="Primo/Prima"
             nome={member.NomeCompleto}
-            openDelete={handleOpenDelete}
+            openDelete={() => handleOpenDelete(member.idPessoa)}
             infoAdicional={
               member.telefone[0]
                 ? formatarTelefone(member.telefone[0].Numero)
@@ -183,6 +207,7 @@ export default function Cadastro({ memberData }: any) {
           searchResults={searchResults}
           searchTerm={searchTerm}
           onChange={handleSearchChange}
+          onDelete={handleDelete}
         ></Modal>
       )}
     </div>
