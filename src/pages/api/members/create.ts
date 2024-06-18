@@ -5,156 +5,65 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const pessoaData = req.body;
+    const newPessoa = req.body;
+    console.log('Received data:', newPessoa);
 
     try {
-      const existingPessoa = pessoaData.idPessoa
-        ? await prisma.pessoa.findUnique({
-            where: { idPessoa: pessoaData.idPessoa },
-            include: {
-              telefone: true,
-              escolaridade: true,
-              endereco: true,
+      // Criação da pessoa
+      const createdPessoa = await prisma.pessoa.create({
+        data: {
+          NomeCompleto: newPessoa.NomeCompleto,
+          Email: newPessoa.Email,
+          Instagram: newPessoa.Instagram,
+          DtNascimento: new Date(newPessoa.DtNascimento),
+          NomeMae: newPessoa.NomeMae,
+          NomePai: newPessoa.NomePai,
+          EstadoCivil: newPessoa.EstadoCivil,
+          Paroquia: newPessoa.Paroquia,
+          Sacramento: newPessoa.Sacramento,
+          Conjuge: newPessoa.Conjuge,
+          Naturalidade: newPessoa.Naturalidade,
+          Religiao: newPessoa.Religiao,
+          IgrejaFrequenta: newPessoa.IgrejaFrequenta,
+          ECC: newPessoa.ECC,
+          Observacao: newPessoa.Observacao,
+          foto: newPessoa.foto ? Buffer.from(newPessoa.foto, 'base64') : undefined,
+          telefone: {
+            create: newPessoa.telefones.map((telefone: { Numero: string }) => ({
+              Numero: telefone.Numero,
+            })),
+          },
+          escolaridade: {
+            create: {
+              EscolaridadeCategoria: newPessoa.escolaridade.EscolaridadeCategoria,
+              Instituicao: newPessoa.escolaridade.Instituicao,
+              Curso: newPessoa.escolaridade.Curso,
+              Situacao: newPessoa.escolaridade.Situacao,
             },
-          })
-        : null;
+          },
+          endereco: {
+            create: {
+              Rua: newPessoa.endereco.Rua,
+              Numero: newPessoa.endereco.Numero,
+              Complemento: newPessoa.endereco.Complemento,
+              Bairro: newPessoa.endereco.Bairro,
+              Cidade: newPessoa.endereco.Cidade,
+              Estado: newPessoa.endereco.Estado,
+              Cep: newPessoa.endereco.Cep,
+            },
+          },
+        },
+        include: {
+          telefone: true,
+          escolaridade: true,
+          endereco: true,
+        },
+      });
 
-      let pessoa;
-
-      if (existingPessoa) {
-        pessoa = await prisma.pessoa.update({
-          where: { idPessoa: existingPessoa.idPessoa },
-          data: {
-            NomeCompleto: pessoaData.NomeCompleto,
-            Email: pessoaData.Email,
-            Instagram: pessoaData.Instagram,
-            DtNascimento: new Date(pessoaData.DtNascimento),
-            NomeMae: pessoaData.NomeMae,
-            NomePai: pessoaData.NomePai,
-            EstadoCivil: pessoaData.EstadoCivil,
-            Paroquia: pessoaData.Paroquia,
-            Sacramento: pessoaData.Sacramento,
-            Conjuge: pessoaData.Conjuge,
-            Naturalidade: pessoaData.Naturalidade,
-            Religiao: pessoaData.Religiao,
-            IgrejaFrequenta: pessoaData.IgrejaFrequenta,
-            ECC: pessoaData.ECC,
-            Observacao: pessoaData.Observacao,
-            foto: pessoaData.foto ? Buffer.from(pessoaData.foto, 'base64') : undefined,
-            telefone: {
-              upsert: pessoaData.telefones.map((telefone: { idTelefone: number, Numero: string }) => ({
-                where: { idTelefone: telefone.idTelefone },
-                update: { Numero: telefone.Numero },
-                create: { Numero: telefone.Numero },
-              })),
-            },
-            escolaridade: pessoaData.escolaridade
-              ? {
-                  upsert: {
-                    where: { idEscola: pessoaData.escolaridade.idEscola },
-                    update: {
-                      EscolaridadeCategoria: pessoaData.escolaridade.EscolaridadeCategoria,
-                      Instituicao: pessoaData.escolaridade.Instituicao,
-                      Curso: pessoaData.escolaridade.Curso,
-                      Situacao: pessoaData.escolaridade.Situacao,
-                    },
-                    create: {
-                      EscolaridadeCategoria: pessoaData.escolaridade.EscolaridadeCategoria,
-                      Instituicao: pessoaData.escolaridade.Instituicao,
-                      Curso: pessoaData.escolaridade.Curso,
-                      Situacao: pessoaData.escolaridade.Situacao,
-                    },
-                  },
-                }
-              : undefined,
-            endereco: {
-              upsert: {
-                where: { idEndereco: pessoaData.endereco.idEndereco },
-                update: {
-                  Rua: pessoaData.endereco.Rua,
-                  Numero: pessoaData.endereco.Numero,
-                  Complemento: pessoaData.endereco.Complemento,
-                  Bairro: pessoaData.endereco.Bairro,
-                  Cidade: pessoaData.endereco.Cidade,
-                  Estado: pessoaData.endereco.Estado,
-                  Cep: pessoaData.endereco.Cep,
-                },
-                create: {
-                  Rua: pessoaData.endereco.Rua,
-                  Numero: pessoaData.endereco.Numero,
-                  Complemento: pessoaData.endereco.Complemento,
-                  Bairro: pessoaData.endereco.Bairro,
-                  Cidade: pessoaData.endereco.Cidade,
-                  Estado: pessoaData.endereco.Estado,
-                  Cep: pessoaData.endereco.Cep,
-                },
-              },
-            },
-          },
-          include: {
-            telefone: true,
-            escolaridade: true,
-            endereco: true,
-          },
-        });
-      } else {
-        pessoa = await prisma.pessoa.create({
-          data: {
-            NomeCompleto: pessoaData.NomeCompleto,
-            Email: pessoaData.Email,
-            Instagram: pessoaData.Instagram,
-            DtNascimento: new Date(pessoaData.DtNascimento),
-            NomeMae: pessoaData.NomeMae,
-            NomePai: pessoaData.NomePai,
-            EstadoCivil: pessoaData.EstadoCivil,
-            Paroquia: pessoaData.Paroquia,
-            Sacramento: pessoaData.Sacramento,
-            Conjuge: pessoaData.Conjuge,
-            Naturalidade: pessoaData.Naturalidade,
-            Religiao: pessoaData.Religiao,
-            IgrejaFrequenta: pessoaData.IgrejaFrequenta,
-            ECC: pessoaData.ECC,
-            Observacao: pessoaData.Observacao,
-            foto: pessoaData.foto ? Buffer.from(pessoaData.foto, 'base64') : undefined,
-            telefone: {
-              create: pessoaData.telefones.map((telefone: { Numero: string }) => ({
-                Numero: telefone.Numero,
-              })),
-            },
-            escolaridade: pessoaData.escolaridade
-              ? {
-                  create: {
-                    EscolaridadeCategoria: pessoaData.escolaridade.EscolaridadeCategoria,
-                    Instituicao: pessoaData.escolaridade.Instituicao,
-                    Curso: pessoaData.escolaridade.Curso,
-                    Situacao: pessoaData.escolaridade.Situacao,
-                  },
-                }
-              : undefined,
-            endereco: {
-              create: {
-                Rua: pessoaData.endereco.Rua,
-                Numero: pessoaData.endereco.Numero,
-                Complemento: pessoaData.endereco.Complemento,
-                Bairro: pessoaData.endereco.Bairro,
-                Cidade: pessoaData.endereco.Cidade,
-                Estado: pessoaData.endereco.Estado,
-                Cep: pessoaData.endereco.Cep,
-              },
-            },
-          },
-          include: {
-            telefone: true,
-            escolaridade: true,
-            endereco: true,
-          },
-        });
-      }
-
-      res.status(200).json(pessoa);
+      res.status(201).json(createdPessoa);
     } catch (error: any) {
-      console.error('Failed to create/update pessoa:', error);
-      res.status(500).json({ error: `Failed to create/update pessoa: ${error.message}` });
+      console.error('Failed to create pessoa:', error);
+      res.status(500).json({ error: `Failed to create pessoa: ${error.message}` });
     } finally {
       await prisma.$disconnect();
     }
