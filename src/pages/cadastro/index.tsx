@@ -85,8 +85,12 @@ export default function Cadastro({ memberData }: any) {
   const handleSearchChange = async (e: any) => {
     const term = e.target.value;
     setSearchTerm(term);
-    const response = await fetch(`/api/members/search?searchTerm=${term}`);
-    const results = await response.json();
+    let response = memberData.filter((member: any) => member.NomeCompleto.toLowerCase().includes(searchTerm.toLowerCase())).map((member: any) => member.NomeCompleto)
+    if (term == "") {
+      response = []
+    }
+
+    const results = response
 
     if (Array.isArray(results)) {
       setSearchResults(results);
