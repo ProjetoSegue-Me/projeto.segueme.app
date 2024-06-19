@@ -138,7 +138,7 @@ export default function Cadastro({ memberData }: any) {
         ));
     } else {
       return memberData
-        .filter((member: any) => member.Conjuge === null)
+        .filter((member: any) => member.Conjuge === null || "")
         .map((member: any) => (
           <Card
             key={member.idPessoa}
