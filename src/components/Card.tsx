@@ -7,7 +7,7 @@ export default function Card(props: any) {
     <div className="flex flex-col w-[27.5vw] font-roboto">
       <img
         src={props.imageSource}
-        className="w-[7vw] h-[7vw] rounded-full ml-auto mb-[-3vw] mr-[2vw] z-10 border-[#F9CDA3] border-[0.5vw]"
+        className="w-[7vw] h-[7vw] rounded-full ml-auto mb-[-3vw] mr-[2vw] z-10 border-[#F9CDA3] border-[0.5vw] object-cover object-center"
       />
       <div className="bg-[#894a2a] w-full bg-opacity-30 rounded-3xl pl-[2vw] pt-[2vw] gap-[1.5vw] flex flex-col">
         <p className="text-[1.2vw]">{props.titulo}</p>
