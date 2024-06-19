@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {loading && <Carregando />}
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 }
