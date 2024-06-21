@@ -3,6 +3,8 @@ import * as yup from "yup";
 import Header from "@/components/Header";
 import Titulo from "@/components/Titulo";
 import { useRouter } from "next/router";
+
+//Função de buscar membro
 const fetchMemberById = async (memberId: string) => {
   try {
     const response = await fetch(
@@ -19,6 +21,7 @@ const fetchMemberById = async (memberId: string) => {
   }
 };
 
+//Busca o membro caso tenha uma query
 export async function getServerSideProps(query: any) {
   const { id } = query.query;
   console.log(`Server-side fetch for member ID: ${id}`);
@@ -28,6 +31,7 @@ export async function getServerSideProps(query: any) {
     props: { memberData },
   };
 }
+
 export default function Form({ memberData }: any) {
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -37,6 +41,8 @@ export default function Form({ memberData }: any) {
     const imageBase64 = Buffer.from(bufferData.data).toString("base64");
     return imageBase64;
   };
+
+  //Retorna o valor no formato correto caso a data tenha sido buscada
   const parseDate = (dateString: any) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -45,6 +51,7 @@ export default function Form({ memberData }: any) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
   //Valores a serem enviados
   const [formValues, setFormValues] = useState(() => {
     if (memberData) {
@@ -147,7 +154,154 @@ export default function Form({ memberData }: any) {
       setPage(target);
     }
   };
+  function formatPhoneNumber(value: string) {
+    if (!value) return value;
+    const cleaned = value.replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
+    if (match) {
+      let formatted = "";
+      if (match[1]) formatted += `(${match[1]}`;
+      if (match[2]) formatted += `) ${match[2]}`;
+      if (match[3]) formatted += `-${match[3]}`;
+      return formatted;
+    }
 
+    return value;
+  }
+  function formatCEP(value: string) {
+    if (!value) return value;
+    const cleaned = value.replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{0,5})(\d{0,3})$/);
+    if (match) {
+      let formatted = "";
+      if (match[1]) formatted += `${match[1]}`;
+      if (match[2]) formatted += `-${match[2]}`;
+      return formatted;
+    }
+
+    return value;
+  }
+
+  //Definição do Yup validator
+  const schema = yup.object().shape({
+    NomeCompleto: yup
+      .string()
+      .max(100, "Nome Completo deve ter no máximo 100 caracteres")
+      .required("Nome Completo é um campo obrigatório"),
+    Email: yup
+      .string()
+      .email("Email inválido")
+      .max(45, "Email deve ter no máximo 45 caracteres")
+      .nullable(),
+    Instagram: yup
+      .string()
+      .matches(/^@/, "Instagram deve começar com @")
+      .max(45, "Instagram deve ter no máximo 45 caracteres")
+      .nullable(),
+    DtNascimento: yup.date().required("DtNascimento é um campo obrigatório"),
+    NomeMae: yup
+      .string()
+      .max(60, "Nome Mae deve ter no máximo 60 caracteres")
+      .required("Nome Mae é um campo obrigatório"),
+    NomePai: yup
+      .string()
+      .max(60, "Nome Pai deve ter no máximo 60 caracteres")
+      .nullable(),
+    EstadoCivil: yup
+      .string()
+      .max(10, "Estado Civil deve ter no máximo 10 caracteres")
+      .nullable(),
+    Paroquia: yup
+      .string()
+      .max(45, "Paroquia deve ter no máximo 45 caracteres")
+      .required("Paroquia é um campo obrigatório"),
+    Sacramento: yup
+      .string()
+      .max(45, "Sacramento deve ter no máximo 45 caracteres")
+      .required("Sacramento é um campo obrigatório"),
+    Conjuge: yup
+      .string()
+      .max(100, "Conjuge deve ter no máximo 100 caracteres")
+      .nullable(),
+    Naturalidade: yup
+      .string()
+      .max(45, "Naturalidade deve ter no máximo 45 caracteres")
+      .required("Naturalidade é um campo obrigatório"),
+    Religiao: yup
+      .string()
+      .max(45, "Religiao deve ter no máximo 45 caracteres")
+      .required("Religiao é um campo obrigatório"),
+    IgrejaFrequenta: yup
+      .string()
+      .max(90, "IgrejaFrequenta deve ter no máximo 90 caracteres")
+      .required("IgrejaFrequenta é um campo obrigatório"),
+    ECC: yup
+      .number()
+      .integer("Tipo invalido")
+      .max(32767, "Valor invalido")
+      .required("ECC é um campo obrigatório"),
+    Observacao: yup
+      .string()
+      .max(200, "Observação deve ter no máximo 200 caracteres")
+      .nullable(),
+    foto: yup.mixed().nullable(),
+    telefones: yup.array().of(
+      yup.object().shape({
+        Numero: yup
+          .string()
+          .matches(/^\d{11}$/, "Numero deve ter 11 dígitos")
+          .nullable(),
+      })
+    ),
+    escolaridade: yup.object().shape({
+      EscolaridadeCategoria: yup
+        .string()
+        .max(45, "EscolaridadeCategoria deve ter no máximo 45 caracteres")
+        .required("EscolaridadeCategoria é um campo obrigatório"),
+      Instituicao: yup
+        .string()
+        .max(60, "Instituicao deve ter no máximo 60 caracteres")
+        .nullable(),
+      Curso: yup
+        .string()
+        .max(60, "Curso deve ter no máximo 60 caracteres")
+        .nullable(),
+      Situacao: yup
+        .string()
+        .max(45, "Situacao deve ter no máximo 45 caracteres")
+        .nullable(),
+    }),
+    endereco: yup.object().shape({
+      Rua: yup
+        .string()
+        .max(60, "Rua deve ter no máximo 60 caracteres")
+        .required("Rua é um campo obrigatório"),
+      Numero: yup
+        .string()
+        .max(10, "Numero deve ter no máximo 10 caracteres")
+        .required("Numero é um campo obrigatório"),
+      Complemento: yup
+        .string()
+        .max(60, "Complemento deve ter no máximo 60 caracteres")
+        .nullable(),
+      Bairro: yup
+        .string()
+        .max(45, "Bairro deve ter no máximo 45 caracteres")
+        .required("Bairro é um campo obrigatório"),
+      Cidade: yup
+        .string()
+        .max(45, "Cidade deve ter no máximo 45 caracteres")
+        .required("Cidade é um campo obrigatório"),
+      Estado: yup
+        .string()
+        .max(45, "Estado deve ter no máximo 45 caracteres")
+        .required("Estado é um campo obrigatório"),
+      Cep: yup
+        .string()
+        .matches(/^\d{8}$/, "Cep deve ter 8 dígitos")
+        .required("Cep é um campo obrigatório"),
+    }),
+  });
   /*Renderização condicional do Titulo */
   const handlePageName = () => {
     switch (page) {
@@ -170,6 +324,7 @@ export default function Form({ memberData }: any) {
   //Funções dos botões
   const handleNext = () => {
     setPage((prevPage) => Math.min(prevPage + 1, 4));
+    console.log(formValues);
   };
 
   const handleBack = () => {
@@ -206,8 +361,10 @@ export default function Form({ memberData }: any) {
       }));
     } else if (name.startsWith("telefone")) {
       const index = parseInt(name.slice(-2)) - 1;
+      const input = e.target.value.replace(/\D/g, "");
+
       const updatedTelefones = [...formValues.telefones];
-      updatedTelefones[index] = { Numero: value };
+      updatedTelefones[index] = { Numero: input };
       setFormValues({ ...formValues, telefones: updatedTelefones });
     } else if (name.startsWith("endereco")) {
       const field = name.split("-")[1];
@@ -246,17 +403,18 @@ export default function Form({ memberData }: any) {
     }
     if (name.startsWith("endereco")) {
       const field = name.split("-")[1];
+      const cleanedValue = field === "Cep" ? value.replace(/\D/g, "") : value;
       setFormValues((prevState: any) => ({
         ...prevState,
         endereco: {
           ...prevState.endereco,
-          [field]: value,
+          [field]: cleanedValue,
         },
       }));
-      if (field === "Cep" && value.length === 8) {
+      if (field === "Cep" && cleanedValue.length === 8) {
         try {
           const response = await fetch(
-            `https://viacep.com.br/ws/${value}/json/`
+            `https://viacep.com.br/ws/${cleanedValue}/json/`
           );
           if (response.ok) {
             const data = await response.json();
@@ -610,8 +768,9 @@ export default function Form({ memberData }: any) {
                     id="telefone01"
                     type="text"
                     name="telefone01"
-                    value={formValues.telefones[0].Numero}
+                    value={formatPhoneNumber(formValues.telefones[0].Numero)}
                     onChange={handleChange}
+                    maxLength={15}
                   />
                 </div>
                 <div className="w-[40%] flex justify-between">
@@ -628,10 +787,11 @@ export default function Form({ memberData }: any) {
                     name="telefone02"
                     value={
                       formValues.telefones[1]
-                        ? formValues.telefones[1].Numero
+                        ? formatPhoneNumber(formValues.telefones[1].Numero)
                         : ""
                     }
                     onChange={handleChange}
+                    maxLength={15}
                   />
                 </div>
               </div>
@@ -652,8 +812,9 @@ export default function Form({ memberData }: any) {
                     id="cep"
                     type="text"
                     name="endereco-Cep"
-                    value={formValues.endereco.Cep}
+                    value={formatCEP(formValues.endereco.Cep)}
                     onChange={handleChange}
+                    maxLength={9}
                   />
                 </div>
                 <div className="w-[40%] flex justify-between">
