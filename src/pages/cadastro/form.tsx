@@ -154,6 +154,7 @@ export default function Form({ memberData }: any) {
       setPage(target);
     }
   };
+  
   function formatPhoneNumber(value: string) {
     if (!value) return value;
     const cleaned = value.replace(/\D/g, "");
@@ -245,14 +246,22 @@ export default function Form({ memberData }: any) {
       .max(200, "Observação deve ter no máximo 200 caracteres")
       .nullable(),
     foto: yup.mixed().nullable(),
-    telefones: yup.array().of(
-      yup.object().shape({
-        Numero: yup
-          .string()
-          .matches(/^\d{11}$/, "Numero deve ter 11 dígitos")
-          .nullable(),
-      })
-    ),
+    telefones: yup
+      .array()
+      .of(
+        yup.object().shape({
+          Numero: yup
+            .string()
+            .matches(/^\d{11}$/, "Número deve ter 11 dígitos")
+            .nullable(),
+        })
+      )
+      .test("at-least-one", "Campo Obrigatório", function (telefones) {
+        if (telefones && telefones.length > 0) {
+          return !!telefones[0].Numero;
+        }
+        return false;
+      }),
     escolaridade: yup.object().shape({
       EscolaridadeCategoria: yup
         .string()
@@ -1046,10 +1055,10 @@ export default function Form({ memberData }: any) {
               </div>
             </div>
             <div className="flex flex-row justify-between items-center">
-              <label className="text-[1.2vw] font-roboto py-[0.25vw] w-fit">
+              <label className="relative text-[1.2vw] font-roboto py-[0.25vw] w-fit ml-[-0.5vw]">
                 Sacramento
               </label>
-              <span className="absolute left-[-1vw] text-red-500">*</span>
+
               <div className="flex justify-between w-[82.5%] pr-[30%] items-center">
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
@@ -1096,10 +1105,10 @@ export default function Form({ memberData }: any) {
               </div>
             </div>
             <div className="flex flex-col justify-between">
-              <label className="text-[1.2vw] font-roboto py-[0.25vw]">
+              <label className="relative text-[1.2vw] font-roboto py-[0.25vw] ml-[-0.5vw]">
                 Os pais participaram do ECC (Encontro de Casais com Cristo)
               </label>
-              <span className="absolute left-[-1vw] text-red-500">*</span>
+
               <div className="flex justify-between pl-[17.5%] pr-[55%]">
                 <label
                   className="text-[1.2vw] font-roboto py-[0.25vw]"
@@ -1134,11 +1143,11 @@ export default function Form({ memberData }: any) {
               </div>
             </div>
 
-            <div className="flex justify-between text-[1.2vw] flex-col gap-[2vw]">
+            <div className="flex justify-between text-[1.2vw] flex-col gap-[2vw] ml-[-0.5vw]">
               Quem o convidou para o Retiro?
               <div className="w-full flex justify-between">
                 <label
-                  className="text-[1.2vw] font-roboto ml-[-0.5vw] py-[0.25vw]"
+                  className="text-[1.2vw] font-roboto py-[0.25vw] "
                   htmlFor="quem-convidou"
                 >
                   Nome:
