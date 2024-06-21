@@ -97,10 +97,9 @@ export default function DetalhesMembro({ memberData }: any) {
               </p>
             </div>
           </div>
-          {/*TODO: Fazer o redirecionamento correto */}
           <button
             className="ml-auto mb-[2vw] mr-[5vw] w-fit text-[1.2vw] font-roboto bg-[#FFB718] rounded-full px-[2.5vw] py-[0.75vw]"
-            onClick={() => router.push("/cadastro")}
+            onClick={() => router.push({pathname: "/cadastro/form", query: {id: memberData.idPessoa}})}
           >
             Editar
           </button>
