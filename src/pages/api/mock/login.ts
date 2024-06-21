@@ -18,8 +18,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json({ message: "Login realizado com sucesso" });
     }
 
-    return res.status(401).json({ message: "Credenciais invalidas" });
+    return res.status(401).json({ message: "Credenciais Inválidas" });
   }
 
-  return res.status(405).json({ message: "Metodo não permitido" });
+  return res.status(405).json({ message: "Método não permitido" });
 };

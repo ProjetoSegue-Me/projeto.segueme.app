@@ -94,7 +94,7 @@ export default function Login() {
               name="login"
               id="login"
               className="block  w-full border-0 py-1.5 pl-[10%] pr-20 text-gray-900 ring-1 ring-inset ring-[#FFB718] placeholder:text-gray-400"
-              placeholder="Úsuario"
+              placeholder="Usuário"
               value={values.login}
               onChange={handleChange}
             />
