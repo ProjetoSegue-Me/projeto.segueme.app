@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pessoa {
+  idPessoa        Int            @id @default(autoincrement())
+  NomeCompleto    String         @db.VarChar(100)
+  Email           String?        @db.VarChar(45)
+  Instagram       String?        @db.VarChar(45)
+  DtNascimento    DateTime
+  NomeMae         String         @db.VarChar(60)
+  NomePai         String?        @db.VarChar(60)
+  EstadoCivil     String?        @db.VarChar(10)
+  Paroquia        String         @db.VarChar(45)
+  Sacramento      String         @db.VarChar(45)
+  Conjuge         String?        @db.VarChar(100)
+  Naturalidade    String         @db.VarChar(45)
+  Religiao        String         @db.VarChar(45)
+  IgrejaFrequenta String         @db.VarChar(90)
+  ECC             Int            @db.SmallInt
+  Observacao      String?        @db.VarChar(200)
+  foto            Bytes?
+  createdAt       DateTime       @default(now())
+  endereco        Endereco[]
+  escolaridade    Escolaridade[]
+  telefone        Telefone[]
+}
+
+model Telefone {
+  idTelefone  Int     @id @default(autoincrement())
+  Numero      String? @db.Char(11)
+  PessoaFK    Int
+  pessoa      Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+}
+
+model Escolaridade {
+  idEscola                 Int     @id @default(autoincrement())
+  EscolaridadeCategoria    String  @db.VarChar(45)
+  Instituicao              String? @db.VarChar(60)
+  Curso                    String? @db.VarChar(60)
+  Situacao                 String? @db.VarChar(45)
+  PessoaFK                 Int
+  pessoa                   Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+}
+
+model Endereco {
+  idEndereco   Int    @id @default(autoincrement())
+  Rua          String @db.VarChar(60)
+  Numero       String @db.VarChar(10)
+  Complemento  String? @db.VarChar(60)
+  Bairro       String @db.VarChar(45)
+  Cidade       String @db.VarChar(45)
+  Estado       String @db.VarChar(45)
+  Cep          String @db.Char(8)
+  PessoaFK     Int
+  pessoa       Pessoa  @relation(fields: [PessoaFK], references: [idPessoa])
+}

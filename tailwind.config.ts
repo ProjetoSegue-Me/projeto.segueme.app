@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         backgroundFormColor: "#894A2A4D",
+        formColor: "#894A2A",
         bodyColor: "#F9CDA3",
         colorStep: "#FFB718",
       },

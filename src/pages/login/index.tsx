@@ -7,16 +7,19 @@ const validationSchema = yup.object().shape({
   login: yup
     .string()
     .matches(/^[a-zA-Z]+\.[a-zA-Z]+$/, "Login inválido")
+    .max(60, "Login deve ter no máximo 60 caracteres")
     .required("Login é um campo obrigatório"),
-  senha: yup.string().required("Senha é um campo obrigatório"),
+  senha: yup
+    .string()
+    .max(30, "Senha deve ter no máximo 30 caracteres")
+    .required("Senha é um campo obrigatório"),
 });
 interface FormSchema {
   login: string;
   senha: string;
 }
 export default function Login() {
-
-  const router = useRouter()
+  const router = useRouter();
   const [values, setValues] = useState({
     login: "",
     senha: "",
@@ -47,10 +50,13 @@ export default function Login() {
           body: JSON.stringify(values),
         });
         if (res.ok) {
-          router.push("/home")
+          router.push("/home");
         } else {
           const errorData = await res.json();
-          router.push({ pathname: "/erro", query: { message: errorData.message } });
+          router.push({
+            pathname: "/erro",
+            query: { message: errorData.message },
+          });
         }
       } catch (err) {
         if (err instanceof yup.ValidationError) {
@@ -71,7 +77,7 @@ export default function Login() {
     //Caso começe a quebrar em medias maiores, pedir pelo fundo como imagem
     <div className=" bg-[url('/images/FundoLogin.png')]  w-screen bg-no-repeat bg-contain text-[1.2vw] font-roboto overflow-hidden">
       <div className=" bg-gradient-to-r from-[#F9CDA353] to-bodyColor min-h-screen to-[50%]  z-10">
-        <Header></Header>
+        <Header />
 
         <form
           className="ml-auto w-[25vw] mr-[15vw] mt-[20vh]"
@@ -88,7 +94,7 @@ export default function Login() {
               name="login"
               id="login"
               className="block  w-full border-0 py-1.5 pl-[10%] pr-20 text-gray-900 ring-1 ring-inset ring-[#FFB718] placeholder:text-gray-400"
-              placeholder="Úsuario"
+              placeholder="Usuário"
               value={values.login}
               onChange={handleChange}
             />

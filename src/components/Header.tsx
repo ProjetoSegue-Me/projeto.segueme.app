@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,53 +34,53 @@ export default function Header() {
 
   return (
     <div className="w-[100vw] flex  items-center justify-between pt-[1vw]">
-      <a href="/" className="ml-[3vw]">
+      <Link href={!isLoggedIn ? "/" : "/home"} className="ml-[3vw]">
         <img src="/images/Segue-me.png" className="w-[7.5vw]" />
-      </a>
+      </Link>
 
       {!isLoggedIn ? (
         <div className="flex gap-[12.5vw] justify-between mr-[5vw]">
-          <a
+          <Link
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
             href="/"
           >
             Inicio
-          </a>
+          </Link>
 
-          <a
+          <Link
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
             href="/"
           >
             Contato
-          </a>
-          <a
+          </Link>
+          <Link
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
             href="/login"
           >
             Login
-          </a>
+          </Link>
         </div>
       ) : (
         <div className="flex gap-[12.5vw] justify-between mr-[5vw]">
-          <a
+          <Link
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
             href="/home"
           >
             Inicio
-          </a>
+          </Link>
 
-          <a
+          <Link
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
             href="/cadastro"
           >
             Cadastro
-          </a>
-          <a
+          </Link>
+          <Link
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A]"
             href="/eventos"
           >
             Eventos
-          </a>
+          </Link>
           <a
             className=" font-normal font-roboto text-[1.2vw] text-[#894A2A] hover:cursor-pointer"
             onClick={handleLogout}
